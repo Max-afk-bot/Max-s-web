@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Max — student, web developer and problem solver. Portfolio, projects and contact." />
+
+  <title>Max — Personal Portfolio</title>
+
+  <!-- Google font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="site-brand" href="/">Max</a>
+
+      <nav class="primary-nav" role="navigation" aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" role="main">
+    <section id="home" class="hero container">
+      <div class="hero-inner">
+        <h1 class="title">Max — Student · Web Developer</h1>
+        <p class="subtitle">I build clean, responsive web interfaces and learn computer science fundamentals. Currently a class 11 student focused on web development and problem solving.</p>
+        <p class="hero-actions">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn btn-outline" href="#contact">Contact</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="about" class="section container">
+      <h2>About</h2>
+      <p>Replace this paragraph with a short professional bio. Mention what you study, what you build, and what you're learning (for example: web development, competitive math, projects you enjoy).</p>
+    </section>
+
+    <section id="skills" class="section container">
+      <h2>Skills</h2>
+      <ul class="skills-list" aria-label="Skills list">
+        <li>HTML &amp; CSS — responsive layouts</li>
+        <li>JavaScript — DOM, basic interactivity</li>
+        <li>Git &amp; GitHub — version control, hosting</li>
+        <li>Problem solving &amp; mathematics</li>
+      </ul>
+    </section>
+
+    <section id="projects" class="section container">
+      <h2>Projects</h2>
+
+      <div class="projects-grid" aria-live="polite">
+        <!-- Repeat .project for each project -->
+        <article class="project">
+          <h3 class="project-title">Project Title</h3>
+          <p class="project-desc">Short description of the project; what it does and what technologies you used.</p>
+          <p><a class="link" href="#" target="_blank" rel="noopener">View project</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section container">
+      <h2>Contact</h2>
+      <p>If you want to reach me, email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+      <p>Or link to your social / channels: <a class="link" href="#" target="_blank" rel="noopener">YouTube / Instagram / GitHub</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p>© <span id="year">2025</span> Max. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Small script to set year dynamically (optional) -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
