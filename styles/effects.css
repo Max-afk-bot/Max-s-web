@@ -1,0 +1,879 @@
+/* ============================
+   ULTRA EFFECTS (safe + smooth)
+   ============================ */
+
+/* ---------- Ambient background ---------- */
+.premium-bg {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+  opacity: 0.62;
+  filter: blur(52px) saturate(125%);
+  animation: drift 12s ease-in-out infinite alternate;
+  transform: translateZ(0);
+  z-index: -20;
+}
+
+@keyframes drift {
+  0% { transform: translate3d(-12px, -10px, 0) scale(1.00); }
+  100% { transform: translate3d(12px, 10px, 0) scale(1.08); }
+}
+
+/* Optional subtle film grain overlay (very light, premium) */
+.filmgrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0.5px, transparent 0.6px),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.07) 0.5px, transparent 0.6px),
+    radial-gradient(circle at 40% 85%, rgba(255,255,255,0.06) 0.5px, transparent 0.6px);
+  background-size: 120px 120px;
+  mix-blend-mode: overlay;
+}
+
+/* ============================
+   Auth (cinematic but clean)
+   ============================ */
+.auth-stage {
+  position: relative;
+  background:
+    radial-gradient(80% 60% at 20% 10%, rgba(90, 255, 220, 0.08), transparent 60%),
+    radial-gradient(80% 60% at 80% 20%, rgba(120, 90, 255, 0.08), transparent 60%),
+    radial-gradient(120% 80% at 50% 100%, rgba(0, 0, 0, 0.8), transparent 70%);
+}
+
+.auth-sheen {
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(60% 60% at 50% 15%, rgba(255,255,255,0.06), transparent 60%);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.auth-beam {
+  position: absolute;
+  inset: -40% -10%;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.07) 50%, transparent 65%);
+  opacity: 0.35;
+  transform: rotate(-8deg);
+  animation: beamSweep 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes beamSweep {
+  0% { transform: translateX(-6%) rotate(-8deg); }
+  100% { transform: translateX(6%) rotate(-8deg); }
+}
+
+.auth-orb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(40px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.auth-orb-a {
+  top: -140px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(80,180,255,0.25), transparent 70%);
+  animation: floatSlow 7s ease-in-out infinite alternate;
+}
+
+.auth-orb-b {
+  bottom: -160px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(255,80,200,0.18), transparent 70%);
+  animation: floatSlow2 8s ease-in-out infinite alternate;
+}
+
+.auth-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 140px 140px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.auth-card {
+  background: rgba(9, 9, 11, 0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(255,255,255,0.02) inset;
+  backdrop-filter: blur(12px) saturate(120%);
+}
+
+.auth-chip {
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(9, 9, 11, 0.4);
+}
+
+.auth-divider {
+  display: inline-block;
+  height: 1px;
+  width: 40px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+}
+
+.auth-cta {
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.auth-cta:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+}
+
+.select-input {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.45) 50%),
+    linear-gradient(135deg, rgba(255,255,255,0.45) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+@keyframes stepIn {
+  0% { opacity: 0; transform: translateY(18px) scale(0.98); filter: blur(8px); }
+  70% { opacity: 1; transform: translateY(-2px) scale(1.01); filter: blur(0.5px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.onboard-step {
+  animation: stepIn 420ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform, opacity, filter;
+}
+
+.step-icon {
+  height: 44px;
+  width: 44px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(9, 9, 11, 0.45);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(9, 9, 11, 0.35);
+  color: rgb(228 228 231);
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border 120ms ease;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.chip-active {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.35);
+  box-shadow: 0 0 18px rgba(120, 180, 255, 0.2);
+}
+
+.chip-x {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.chip-mini {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 999px;
+}
+
+/* Subtle vignette + grid overlay */
+.ambient-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -5;
+  opacity: 0.65;
+  background-image:
+    radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.05), transparent 60%),
+    radial-gradient(120% 90% at 50% 100%, rgba(0,0,0,0.55), transparent 60%),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: auto, auto, 120px 120px, 120px 120px;
+  background-position: center, center, 0 0, 0 0;
+}
+
+/* ============================
+   Dashboard subtle effects
+   ============================ */
+.dashboard-stage {
+  position: relative;
+  --mx: 50%;
+  --my: 30%;
+}
+
+.dashboard-spotlight {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  z-index: -6;
+  background:
+    radial-gradient(420px 320px at var(--mx) var(--my),
+      rgba(120, 90, 255, 0.14),
+      transparent 60%);
+  opacity: 0.55;
+  filter: blur(2px);
+  animation: softPulse 9s ease-in-out infinite;
+}
+
+.dashboard-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -4;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 0.25;
+  mask-image: radial-gradient(circle at 50% 20%, black 45%, transparent 70%);
+}
+
+.dashboard-bloom {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  z-index: -7;
+  opacity: 0.7;
+  background:
+    radial-gradient(55% 50% at 20% 20%, rgba(120, 255, 220, 0.12), transparent 65%),
+    radial-gradient(55% 50% at 80% 30%, rgba(90, 120, 255, 0.12), transparent 65%),
+    radial-gradient(70% 60% at 50% 100%, rgba(0, 0, 0, 0.65), transparent 70%);
+  filter: blur(6px);
+  animation: drift 12s ease-in-out infinite alternate;
+}
+
+.dashboard-mist {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -6;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08) 1px, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.07) 1px, transparent 2px),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.06) 1px, transparent 2px);
+  background-size: 220px 220px;
+  animation: mistDrift 18s linear infinite;
+}
+
+@keyframes mistDrift {
+  0% { background-position: 0 0; }
+  100% { background-position: 240px 120px; }
+}
+
+@keyframes softPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes statPulse {
+  0%, 100% { transform: scale(1); opacity: 0.65; }
+  50% { transform: scale(1.6); opacity: 0.95; }
+}
+
+.stat-pulse {
+  animation: statPulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 14px rgba(34,211,238,0.45);
+}
+
+/* ---------- Glow wrapper ---------- */
+.glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Vibes ---------- */
+.vibe-fire::before {
+  background:
+    radial-gradient(60% 60% at 55% 35%, rgba(255, 80, 20, .42), transparent 70%),
+    radial-gradient(70% 70% at 30% 75%, rgba(255, 200, 60, .22), transparent 70%);
+}
+
+.vibe-neon::before {
+  background:
+    radial-gradient(60% 60% at 55% 35%, rgba(90, 255, 220, .28), transparent 70%),
+    radial-gradient(70% 70% at 30% 75%, rgba(120, 90, 255, .20), transparent 70%);
+}
+
+.vibe-cyber::before {
+  background:
+    radial-gradient(60% 60% at 55% 35%, rgba(80, 180, 255, .24), transparent 70%),
+    radial-gradient(70% 70% at 30% 75%, rgba(255, 80, 200, .15), transparent 70%);
+}
+
+/* ---------- Sidebar accent line ---------- */
+.nav-accent {
+  position: relative;
+}
+
+.nav-accent::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0px;
+  height: 28px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: all 200ms ease;
+}
+
+.nav-accent:hover::after {
+  width: 4px;
+  opacity: 1;
+}
+
+/* Accent colors */
+.accent-fire::after  { background: rgba(255,120,40,.95); box-shadow: 0 0 18px rgba(255,120,40,.65); }
+.accent-neon::after  { background: rgba(90,255,220,.95); box-shadow: 0 0 18px rgba(90,255,220,.55); }
+.accent-cyber::after { background: rgba(120,90,255,.95); box-shadow: 0 0 18px rgba(120,90,255,.55); }
+
+/* ---------- Micro icon pop ---------- */
+.icon-pop {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.group:hover .icon-pop {
+  transform: translateY(-1px) scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(255,255,255,.10));
+}
+
+/* ---------- Page in animation ---------- */
+@keyframes pageIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pageIn {
+  animation: pageIn 360ms ease-out;
+}
+
+@keyframes routeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+    filter: saturate(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+}
+
+.animate-routeIn {
+  animation: routeIn 320ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-routeIn {
+    animation: none;
+  }
+}
+
+/* ---------- Staggered reveal ---------- */
+@keyframes riseIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.stagger > * {
+  animation: riseIn 420ms ease-out both;
+}
+
+.stagger > *:nth-child(1)  { animation-delay: 0ms; }
+.stagger > *:nth-child(2)  { animation-delay: 60ms; }
+.stagger > *:nth-child(3)  { animation-delay: 120ms; }
+.stagger > *:nth-child(4)  { animation-delay: 180ms; }
+.stagger > *:nth-child(5)  { animation-delay: 240ms; }
+.stagger > *:nth-child(6)  { animation-delay: 300ms; }
+.stagger > *:nth-child(7)  { animation-delay: 360ms; }
+.stagger > *:nth-child(8)  { animation-delay: 420ms; }
+
+/* ---------- Button press + premium hover ---------- */
+.btn-press {
+  transition: transform 120ms ease;
+}
+
+.btn-press:active {
+  transform: scale(0.985);
+}
+
+/* Hover lift used for important buttons */
+.magnetic {
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.magnetic:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 0 12px rgba(255,255,255,.06));
+}
+
+/* ---------- Card shine ---------- */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -120%;
+  width: 240%;
+  height: 240%;
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.07) 50%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  transition: transform 700ms ease;
+  pointer-events: none;
+}
+
+.card-shine:hover::after {
+  transform: translate(55%, 55%) rotate(25deg);
+}
+
+/* ---------- Soft float orbs ---------- */
+@keyframes floatSlow {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(22px); }
+}
+
+@keyframes floatSlow2 {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-26px); }
+}
+
+.animate-floatSlow  { animation: floatSlow 6.5s ease-in-out infinite alternate; }
+.animate-floatSlow2 { animation: floatSlow2 7.5s ease-in-out infinite alternate; }
+
+/* ---------- Gaming ignite (only gaming icon) ---------- */
+.gaming-ignite {
+  position: relative;
+}
+
+.gaming-ignite::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 60% at 50% 28%, rgba(255,120,40,.55), transparent 70%),
+    radial-gradient(70% 70% at 40% 85%, rgba(255,210,80,.22), transparent 70%);
+  filter: blur(2px);
+}
+
+.group:hover .gaming-ignite::before {
+  opacity: 1;
+}
+
+@keyframes flicker {
+  0% { transform: translateY(0) scale(1); opacity: .9; }
+  100% { transform: translateY(-1px) scale(1.02); opacity: 1; }
+}
+
+.group:hover .gaming-ignite {
+  animation: flicker 220ms ease-in-out infinite alternate;
+}
+
+.gaming-active .gaming-ignite::before {
+  opacity: 1;
+  background:
+    radial-gradient(60% 60% at 50% 28%, rgba(255,120,40,.62), transparent 70%),
+    radial-gradient(70% 70% at 40% 85%, rgba(255,210,80,.28), transparent 70%);
+}
+
+/* ============================
+   About page ambience
+   ============================ */
+.about-stage {
+  position: relative;
+}
+
+.about-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: -6;
+  pointer-events: none;
+  opacity: 0.78;
+  background:
+    radial-gradient(560px 360px at 10% 10%, rgba(168,85,247,0.20), transparent 60%),
+    radial-gradient(520px 360px at 90% 20%, rgba(236,72,153,0.18), transparent 60%),
+    radial-gradient(700px 500px at 50% 100%, rgba(0,0,0,0.7), transparent 70%);
+  filter: blur(6px);
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.about-aurora {
+  position: absolute;
+  inset: -30%;
+  z-index: -8;
+  pointer-events: none;
+  opacity: 0.78;
+  background:
+    radial-gradient(40% 35% at 12% 20%, rgba(139,92,246,0.28), transparent 70%),
+    radial-gradient(45% 40% at 80% 10%, rgba(217,70,239,0.24), transparent 70%),
+    radial-gradient(55% 45% at 30% 90%, rgba(59,130,246,0.20), transparent 70%),
+    radial-gradient(60% 50% at 90% 80%, rgba(168,85,247,0.16), transparent 70%);
+  filter: blur(18px) saturate(140%);
+  animation: aboutAurora 18s ease-in-out infinite alternate;
+}
+
+.about-rings {
+  position: absolute;
+  inset: -10%;
+  z-index: -7;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06) 1px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05) 1px, transparent 2px);
+  background-size: 180px 180px;
+  animation: aboutRings 22s linear infinite;
+}
+
+.about-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 140px 140px;
+  mask-image: radial-gradient(circle at 40% 20%, black 45%, transparent 70%);
+}
+
+.about-orbits {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    radial-gradient(circle at 25% 30%, rgba(255,255,255,0.06) 1px, transparent 2px),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.05) 1px, transparent 2px),
+    radial-gradient(circle at 85% 20%, rgba(255,255,255,0.05) 1px, transparent 2px);
+  background-size: 220px 220px;
+  animation: mistDrift 20s linear infinite;
+}
+
+.about-particles {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  opacity: 0.28;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255,255,255,0.10) 1px, transparent 2px),
+    radial-gradient(circle at 55% 45%, rgba(255,255,255,0.08) 1px, transparent 2px),
+    radial-gradient(circle at 85% 70%, rgba(255,255,255,0.08) 1px, transparent 2px);
+  background-size: 240px 240px;
+  animation: mistDrift 26s linear infinite;
+}
+
+.about-hero::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  opacity: 0.45;
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 65%
+  );
+  transform: rotate(10deg);
+}
+
+/* ============================
+   Projects page ambience
+   ============================ */
+.projects-stage {
+  position: relative;
+}
+
+.projects-glow {
+  position: absolute;
+  inset: -25%;
+  z-index: -7;
+  pointer-events: none;
+  opacity: 0.7;
+  background:
+    radial-gradient(520px 360px at 15% 10%, rgba(16,185,129,0.20), transparent 60%),
+    radial-gradient(520px 360px at 85% 20%, rgba(34,197,94,0.18), transparent 60%),
+    radial-gradient(700px 520px at 50% 100%, rgba(0,0,0,0.75), transparent 70%);
+  filter: blur(10px);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+.projects-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at 40% 20%, black 50%, transparent 72%);
+}
+
+.projects-beam {
+  position: absolute;
+  inset: -40%;
+  z-index: -6;
+  pointer-events: none;
+  opacity: 0.35;
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 60%
+  );
+  transform: rotate(12deg);
+  animation: beamSweep 12s ease-in-out infinite alternate;
+}
+
+.projects-particles {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  opacity: 0.25;
+  background-image:
+    radial-gradient(circle at 15% 30%, rgba(255,255,255,0.08) 1px, transparent 2px),
+    radial-gradient(circle at 55% 45%, rgba(255,255,255,0.06) 1px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 1px, transparent 2px);
+  background-size: 220px 220px;
+  animation: mistDrift 22s linear infinite;
+}
+
+/* ============================
+   Footer and docs
+   ============================ */
+.legal-footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.legal-footer::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  opacity: 0.45;
+  background:
+    radial-gradient(50% 50% at 20% 20%, rgba(59,130,246,0.16), transparent 70%),
+    radial-gradient(50% 50% at 80% 60%, rgba(16,185,129,0.14), transparent 70%);
+  filter: blur(10px);
+}
+
+.doc-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-hero::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  opacity: 0.25;
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.12) 50%,
+    transparent 60%
+  );
+  transform: rotate(8deg);
+}
+
+/* ============================
+   Advanced gaming stage
+   ============================ */
+.gaming-stage-plus {
+  position: relative;
+}
+
+.gaming-vortex {
+  position: absolute;
+  inset: -25%;
+  z-index: -8;
+  pointer-events: none;
+  opacity: 0.7;
+  background:
+    radial-gradient(45% 35% at 18% 12%, rgba(251,146,60,0.20), transparent 65%),
+    radial-gradient(50% 40% at 80% 18%, rgba(239,68,68,0.18), transparent 65%),
+    radial-gradient(55% 48% at 40% 95%, rgba(217,70,239,0.14), transparent 70%),
+    radial-gradient(80% 70% at 50% 100%, rgba(0,0,0,0.75), transparent 70%);
+  filter: blur(14px);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+.gaming-noise {
+  position: absolute;
+  inset: 0;
+  z-index: -7;
+  pointer-events: none;
+  opacity: 0.24;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08) 1px, transparent 2px),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,0.06) 1px, transparent 2px),
+    radial-gradient(circle at 75% 35%, rgba(255,255,255,0.06) 1px, transparent 2px),
+    radial-gradient(circle at 90% 80%, rgba(255,255,255,0.05) 1px, transparent 2px);
+  background-size: 220px 220px;
+  animation: mistDrift 24s linear infinite;
+}
+@keyframes aboutAurora {
+  0% { transform: translate3d(-12px, -8px, 0) scale(1); }
+  100% { transform: translate3d(12px, 10px, 0) scale(1.08); }
+}
+
+@keyframes aboutRings {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-16px); }
+}
+
+/* ---------- Touch optimizations ---------- */
+@media (pointer: coarse) {
+  .glow:hover::before {
+    opacity: 0;
+  }
+
+  .nav-accent:hover::after {
+    width: 0;
+    opacity: 0;
+  }
+
+  .group:hover .icon-pop {
+    transform: none;
+    filter: none;
+  }
+
+  .magnetic:hover {
+    transform: none;
+    filter: none;
+  }
+
+  .card-shine:hover::after {
+    transform: none;
+  }
+
+  .group:hover .gaming-ignite::before {
+    opacity: 0;
+  }
+
+  .group:hover .gaming-ignite {
+    animation: none;
+  }
+
+  .dashboard-spotlight,
+  .dashboard-bloom,
+  .dashboard-mist,
+  .dashboard-scanlines {
+    opacity: 0.45;
+  }
+}
+
+/* ---------- Skeleton shimmer ---------- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background-image: linear-gradient(
+    90deg,
+    rgba(39,39,42,0.35) 0%,
+    rgba(90,90,100,0.25) 35%,
+    rgba(39,39,42,0.35) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.15s ease-in-out infinite;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pageIn,
+  .stagger > *,
+  .skeleton,
+  .premium-bg,
+  .dashboard-spotlight,
+  .dashboard-bloom,
+  .dashboard-mist,
+  .stat-pulse,
+  .onboard-step,
+  .auth-sheen,
+  .auth-beam,
+  .auth-orb-a,
+  .auth-orb-b,
+  .animate-floatSlow,
+  .animate-floatSlow2,
+  .group:hover .gaming-ignite {
+    animation: none !important;
+    transition: none !important;
+  }
+}

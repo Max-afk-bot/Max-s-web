@@ -1,26 +1,35 @@
 @import "tailwindcss";
+@import "../styles/effects.css";
 
+/* Accent used by your UI dots etc. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --accent: 99 102 241; /* indigo-ish */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Keep body clean, your layout sets the dark bg already */
+html, body {
+  height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  color: rgb(244 244 245); /* zinc-100 */
+  background: rgb(9 9 11); /* zinc-950 */
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Better touch feel */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (pointer: coarse) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 40px;
+  }
 }
