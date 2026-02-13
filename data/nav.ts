@@ -57,7 +57,7 @@ export const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: "Admin",
-    href: "/admin/about",
+    href: "/admin/dashboard",
     icon: Shield,
     desc: "Content control",
     vibe: "neon",

@@ -5,6 +5,7 @@ import {
   rejectInvalidOrigin,
   rejectNonJson,
 } from "@/lib/apiSecurity";
+import { isValidGmail } from "@/lib/validators";
 
 const MAX_NAME = 120;
 const MAX_EMAIL = 200;
@@ -72,9 +73,8 @@ export async function POST(req: Request) {
     return noStoreJson({ error: "Message is too long." }, 400);
   }
 
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!emailOk) {
-    return noStoreJson({ error: "Email looks invalid." }, 400);
+  if (!isValidGmail(email)) {
+    return noStoreJson({ error: "Please use a Gmail address." }, 400);
   }
 
   const admin = createClient(supabaseUrl, serviceKey, {

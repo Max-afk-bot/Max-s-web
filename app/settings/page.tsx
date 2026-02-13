@@ -13,6 +13,7 @@ import {
   upsertProfile,
   type ProfileDraft,
 } from "@/lib/profile";
+import { normalizeAge } from "@/lib/validators";
 
 const fallbackProfile: ProfileDraft = {
   ...defaultProfileDraft,
@@ -125,6 +126,10 @@ export default function SettingsPage() {
   const updateDraft = (key: keyof ProfileDraft, value: string) => {
     setSaved(false);
     setSaveError(null);
+    if (key === "age") {
+      setDraft((p) => ({ ...p, age: normalizeAge(value) }));
+      return;
+    }
     setDraft((p) => ({ ...p, [key]: value }));
   };
 
@@ -233,7 +238,7 @@ export default function SettingsPage() {
   return (
     <PageShell
       title="Settings"
-      subtitle="Profile, account, and preferences. Backend will connect later."
+      subtitle="Profile, account, and preferences."
     >
       <div className="space-y-6">
         {/* Profile overview */}
@@ -362,6 +367,9 @@ export default function SettingsPage() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Button variant="ghost" onClick={() => router.push("/profile")}>
+                Preview profile
+              </Button>
               {saveError ? (
                 <span className="text-xs text-red-400">{saveError}</span>
               ) : null}
@@ -388,7 +396,7 @@ export default function SettingsPage() {
                 disabled
               />
               <p className="text-[11px] text-zinc-500 mt-2">
-                Username is locked after onboarding.
+                Username is locked after onboarding (3-20 letters, numbers, or _).
               </p>
             </div>
             <div>
@@ -412,7 +420,10 @@ export default function SettingsPage() {
                 placeholder="Age (optional)"
                 value={draft.age}
                 onChange={(e) => updateDraft("age", e.target.value)}
+                min={1}
+                max={120}
               />
+              <p className="text-[11px] text-zinc-500 mt-2">Allowed range: 1–120.</p>
             </div>
             <div>
               <p className="text-xs text-zinc-500 mb-2">Skills</p>

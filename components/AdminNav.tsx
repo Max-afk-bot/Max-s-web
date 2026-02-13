@@ -4,9 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
+  { label: "Dashboard", href: "/admin/dashboard" },
   { label: "About", href: "/admin/about" },
   { label: "Gaming", href: "/admin/gaming" },
+  { label: "Team Requests", href: "/admin/team-requests" },
   { label: "Projects", href: "/admin/projects" },
+  { label: "Contact", href: "/admin/contact" },
+  { label: "Docs", href: "/admin/documentation" },
   { label: "Inbox", href: "/admin/inbox" },
   { label: "Settings", href: "/admin/settings" },
 ];

@@ -15,6 +15,20 @@ export type CompletedProject = {
   link: string;
   tech: string;
   year: string;
+  downloads?: number;
+  preview?: string;
+};
+
+export type ProjectTimelineItem = {
+  title: string;
+  date: string;
+  detail: string;
+};
+
+export type ProjectGalleryItem = {
+  title: string;
+  image: string;
+  link: string;
 };
 
 export type ProjectsContent = {
@@ -33,6 +47,9 @@ export type ProjectsContent = {
   current_project: string;
   pipeline: { title: string; text: string }[];
   experiments: string[];
+  timeline: ProjectTimelineItem[];
+  milestones: string[];
+  gallery: ProjectGalleryItem[];
 };
 
 export const defaultProjectsContent: ProjectsContent = {
@@ -65,7 +82,38 @@ export const defaultProjectsContent: ProjectsContent = {
       tags: ["Game", "Unity", "Prototype"],
     },
   ],
-  completed: [],
+  completed: [
+    {
+      name: "Python50 (Beginner Pack)",
+      summary: "50 basic Python projects packed in one folder.",
+      link: "https://github.com/user-attachments/files/25281435/python50.zip",
+      tech: "Python",
+      year: "2026",
+      downloads: 0,
+      preview:
+        "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&auto=format&fit=crop",
+    },
+    {
+      name: "Python50 Medium Pack",
+      summary: "50 medium-level Python projects to level up skills.",
+      link: "https://github.com/user-attachments/files/25281436/python50medium.zip",
+      tech: "Python",
+      year: "2026",
+      downloads: 0,
+      preview:
+        "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?w=1200&auto=format&fit=crop",
+    },
+    {
+      name: "Python Intermediate Pack",
+      summary: "100 intermediate-level Python projects in one pack.",
+      link: "https://github.com/user-attachments/files/25281440/pythonintermediate.zip",
+      tech: "Python",
+      year: "2026",
+      downloads: 0,
+      preview:
+        "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&auto=format&fit=crop",
+    },
+  ],
   current_project: "Dashboard Website",
   pipeline: [
     {
@@ -86,22 +134,67 @@ export const defaultProjectsContent: ProjectsContent = {
     "Performance pass for mobile animations",
     "Gameplay tracker dashboard",
   ],
+  timeline: [
+    {
+      title: "Started core layout",
+      date: "Feb 2026",
+      detail: "Built navigation, dashboard shell, and premium motion baseline.",
+    },
+    {
+      title: "Auth + onboarding",
+      date: "Feb 2026",
+      detail: "Google login, onboarding steps, and profile persistence.",
+    },
+    {
+      title: "Admin control",
+      date: "Feb 2026",
+      detail: "Admin pages to update content without redeploying.",
+    },
+  ],
+  milestones: [
+    "Launch public portfolio",
+    "Ship gaming weekly tracker",
+    "Add content management for every page",
+    "Performance tune for mobile",
+  ],
+  gallery: [
+    {
+      title: "Dashboard UI",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop",
+      link: "/",
+    },
+    {
+      title: "Gaming Intel",
+      image: "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=1200&auto=format&fit=crop",
+      link: "/gaming",
+    },
+    {
+      title: "Project Lab",
+      image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&auto=format&fit=crop",
+      link: "/projects",
+    },
+  ],
 };
 
-export async function fetchProjectsContent(): Promise<ProjectsContent | null> {
+export async function fetchProjectsContent(
+  id: string = "default"
+): Promise<ProjectsContent | null> {
   const { data, error } = await supabase
     .from("projects_content")
     .select("content")
-    .eq("id", "default")
+    .eq("id", id)
     .maybeSingle();
   if (error || !data?.content) return null;
   return data.content as ProjectsContent;
 }
 
-export async function upsertProjectsContent(content: ProjectsContent) {
+export async function upsertProjectsContent(
+  content: ProjectsContent,
+  id: string = "default"
+) {
   return supabase
     .from("projects_content")
-    .upsert({ id: "default", content })
+    .upsert({ id, content })
     .select()
     .single();
 }

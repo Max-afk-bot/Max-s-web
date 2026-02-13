@@ -1,53 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageShell from "@/components/PageShell";
 import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import LazySection from "@/components/LazySection";
 import {
   Camera,
   Mail,
   MessageCircle,
   Play,
 } from "lucide-react";
+import {
+  defaultContactContent,
+  fetchContactContent,
+  type ContactContent,
+} from "@/lib/contactContent";
+import { isValidGmail } from "@/lib/validators";
+import {
+  defaultSiteSettings,
+  fetchSiteSettings,
+  type SiteSettings,
+} from "@/lib/siteSettings";
 
-const socials = [
-  {
-    label: "Discord",
-    href: "https://discord.gg/RpgKb4FG",
-    handle: "Join server",
-    icon: MessageCircle,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/abcd1939efj/",
-    handle: "@abcd1939efj",
-    icon: Camera,
-  },
-  {
-    label: "YouTube",
-    href: "https://youtube.com/@max_lifeyt?si=_yq83jCglUPXeFwi",
-    handle: "@max_lifeyt",
-    icon: Play,
-  },
-];
-
-const topics = [
-  "Partnership",
-  "Collab",
-  "Support",
-  "Feedback",
-  "Press",
-  "Other",
-];
+const iconMap = {
+  discord: MessageCircle,
+  instagram: Camera,
+  youtube: Play,
+  mail: Mail,
+};
 
 export default function ContactPage() {
+  const [content, setContent] = useState<ContactContent>(
+    defaultContactContent
+  );
+  const [siteSettings, setSiteSettings] =
+    useState<SiteSettings>(defaultSiteSettings);
   const [form, setForm] = useState({
     name: "",
     email: "",
     subject: "",
-    topic: "Support",
+    topic: defaultContactContent.topics[2] ?? "Support",
     message: "",
     company: "",
   });
@@ -55,16 +49,79 @@ export default function ContactPage() {
     "idle"
   );
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let mounted = true;
+    fetchContactContent().then((data) => {
+      if (!mounted || !data) return;
+      setContent({ ...defaultContactContent, ...data });
+      setForm((prev) => ({
+        ...prev,
+        topic: data.topics?.[0] ?? prev.topic,
+      }));
+    });
+    fetchSiteSettings().then((settings) => {
+      if (!mounted) return;
+      setSiteSettings(settings);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (status !== "sent") return;
+    const timer = window.setTimeout(() => {
+      setStatus("idle");
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
+  const topics = useMemo(
+    () =>
+      content.topics && content.topics.length
+        ? content.topics
+        : defaultContactContent.topics,
+    [content.topics]
+  );
 
   const update = (key: keyof typeof form, value: string) => {
     setForm((p) => ({ ...p, [key]: value }));
     setError(null);
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
     setError(null);
+    setFieldErrors({});
+
+    const nextErrors: Record<string, string> = {};
+    if (!form.name.trim() || form.name.trim().length < 2) {
+      nextErrors.name = "Enter at least 2 characters.";
+    }
+    if (!isValidGmail(form.email)) {
+      nextErrors.email = "Use a valid Gmail address.";
+    }
+    if (form.subject && form.subject.trim().length < 3) {
+      nextErrors.subject = "Subject should be at least 3 characters.";
+    }
+    if (!form.message.trim() || form.message.trim().length < 10) {
+      nextErrors.message = "Message should be at least 10 characters.";
+    }
+    if (Object.keys(nextErrors).length > 0) {
+      setStatus("error");
+      setFieldErrors(nextErrors);
+      setError("Fix the highlighted fields.");
+      return;
+    }
 
     let res: Response;
     try {
@@ -87,6 +144,7 @@ export default function ContactPage() {
     }
 
     setStatus("sent");
+    setFieldErrors({});
     setForm({
       name: "",
       email: "",
@@ -99,20 +157,21 @@ export default function ContactPage() {
 
   return (
     <PageShell
-      title="Contact"
-      subtitle="Reach out directly or connect on social platforms."
+      title={content.hero_title}
+      subtitle={content.hero_subtitle}
     >
       <div className="relative">
         <div className="premium-bg" />
         <div className="ambient-overlay" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
-          <Card className="lg:col-span-2 p-6 card-shine glow vibe-cyber">
+          {siteSettings.contact.show_form ? (
+            <Card className="lg:col-span-2 p-6 card-shine glow vibe-cyber">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-semibold">Send a message</h2>
+                <h2 className="text-lg font-semibold">{content.form_title}</h2>
                 <p className="text-sm text-zinc-400 mt-1">
-                  I usually reply within 24 to 48 hours.
+                  {content.form_subtitle}
                 </p>
               </div>
               <div className="text-xs text-zinc-500 flex items-center gap-2">
@@ -128,8 +187,15 @@ export default function ContactPage() {
                     placeholder="Your name"
                     value={form.name}
                     onChange={(e) => update("name", e.target.value)}
+                    minLength={2}
+                    maxLength={120}
                     required
                   />
+                  {fieldErrors.name ? (
+                    <p className="text-xs text-red-400 mt-1">
+                      {fieldErrors.name}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 mb-2">Email</p>
@@ -138,8 +204,14 @@ export default function ContactPage() {
                     placeholder="you@email.com"
                     value={form.email}
                     onChange={(e) => update("email", e.target.value)}
+                    maxLength={200}
                     required
                   />
+                  {fieldErrors.email ? (
+                    <p className="text-xs text-red-400 mt-1">
+                      {fieldErrors.email}
+                    </p>
+                  ) : null}
                 </div>
               </div>
 
@@ -150,7 +222,14 @@ export default function ContactPage() {
                     placeholder="What is this about?"
                     value={form.subject}
                     onChange={(e) => update("subject", e.target.value)}
+                    minLength={3}
+                    maxLength={200}
                   />
+                  {fieldErrors.subject ? (
+                    <p className="text-xs text-red-400 mt-1">
+                      {fieldErrors.subject}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <p className="text-xs text-zinc-500 mb-2">Topic</p>
@@ -175,8 +254,15 @@ export default function ContactPage() {
                   placeholder="Write your message..."
                   value={form.message}
                   onChange={(e) => update("message", e.target.value)}
+                  minLength={10}
+                  maxLength={3000}
                   required
                 />
+                {fieldErrors.message ? (
+                  <p className="text-xs text-red-400 mt-1">
+                    {fieldErrors.message}
+                  </p>
+                ) : null}
               </div>
 
               <input
@@ -189,8 +275,8 @@ export default function ContactPage() {
               />
 
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs text-zinc-500">
-                  Your message is stored securely.
+                  <p className="text-xs text-zinc-500">
+                  {content.form_note}
                 </p>
                 <Button type="submit" disabled={status === "sending"}>
                   {status === "sending" ? "Sending..." : "Send message"}
@@ -198,67 +284,87 @@ export default function ContactPage() {
               </div>
 
               {status === "sent" ? (
-                <p className="text-xs text-emerald-400">Message sent.</p>
+                <p className="text-xs text-emerald-400">
+                  Message sent. We will reply soon.
+                </p>
               ) : null}
               {status === "error" ? (
                 <p className="text-xs text-red-400">{error}</p>
               ) : null}
             </form>
           </Card>
+          ) : (
+            <Card className="lg:col-span-2 p-6 border-zinc-800 bg-zinc-950/60 text-sm text-zinc-400">
+              Contact form is temporarily hidden by admin settings.
+            </Card>
+          )}
 
-          <div className="space-y-4">
-            <Card className="p-5 card-shine glow vibe-neon">
-              <h3 className="text-sm font-semibold">Availability</h3>
+          <LazySection minHeight={200}>
+            <div className="space-y-4">
+            {siteSettings.contact.show_availability ? (
+              <Card className="p-5 card-shine glow vibe-neon">
+              <h3 className="text-sm font-semibold">{content.availability_title}</h3>
               <p className="text-xs text-zinc-500 mt-1">
-                Best time to reach me is 11:00 to 20:00 local time.
+                {content.availability_text}
               </p>
               <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-zinc-400">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
-                  Response
-                  <div className="text-sm text-zinc-200 mt-1">24 to 48h</div>
-                </div>
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
-                  Channel
-                  <div className="text-sm text-zinc-200 mt-1">Email or DM</div>
-                </div>
+                {(content.availability_stats.length
+                  ? content.availability_stats
+                  : defaultContactContent.availability_stats
+                ).map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3"
+                  >
+                    {item.label}
+                    <div className="text-sm text-zinc-200 mt-1">{item.value}</div>
+                  </div>
+                ))}
               </div>
             </Card>
+            ) : null}
 
-            <Card className="p-5">
-              <h3 className="text-sm font-semibold">Social links</h3>
-              <p className="text-xs text-zinc-500 mt-1">
-                Find me on these platforms.
-              </p>
+            {siteSettings.contact.show_socials ? (
+              <Card className="p-5">
+                <h3 className="text-sm font-semibold">{content.socials_title}</h3>
+                <p className="text-xs text-zinc-500 mt-1">
+                  {content.socials_subtitle}
+                </p>
 
-              <div className="mt-4 space-y-2 stagger">
-                {socials.map((s) => {
-                  const Icon = s.icon;
-                  return (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/20 p-3 hover:bg-zinc-900/40 transition"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-xl border border-zinc-800 bg-zinc-900/40 grid place-items-center">
-                          <Icon size={16} className="opacity-80 icon-pop" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium">{s.label}</div>
-                          <div className="text-xs text-zinc-500">
-                            {s.handle}
+                <div className="mt-4 space-y-2 stagger">
+                  {(content.socials.length
+                    ? content.socials
+                    : defaultContactContent.socials
+                  ).map((s) => {
+                    const Icon = iconMap[s.icon] ?? MessageCircle;
+                    return (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/20 p-3 hover:bg-zinc-900/40 transition"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="h-9 w-9 rounded-xl border border-zinc-800 bg-zinc-900/40 grid place-items-center">
+                            <Icon size={16} className="opacity-80 icon-pop" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">{s.label}</div>
+                            <div className="text-xs text-zinc-500">
+                              {s.handle}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <span className="text-xs text-zinc-500">Open</span>
-                    </a>
-                  );
-                })}
-              </div>
-            </Card>
-          </div>
+                        <span className="text-xs text-zinc-500">Open</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </Card>
+            ) : null}
+            </div>
+          </LazySection>
         </div>
       </div>
     </PageShell>

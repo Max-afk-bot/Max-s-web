@@ -60,9 +60,6 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
       try {
         const profile = await fetchProfile(session.user.id);
         const done = profile?.onboarding_done ?? false;
-        if (!profile) {
-          console.warn("AuthGate: no profile found for user.");
-        }
         setNeedsOnboarding(!done);
         if (done) {
           if (typeof window !== "undefined") {
@@ -71,8 +68,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           setSuppressOnboardingRedirect(false);
         }
         setOnboardingChecked(true);
-      } catch (err) {
-        console.error("AuthGate: fetchProfile failed", err);
+      } catch {
         setNeedsOnboarding(true);
         setOnboardingChecked(true);
       }

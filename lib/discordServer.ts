@@ -179,3 +179,19 @@ export async function fetchDiscordGuildWithBot(guildId: string, botToken: string
     cache: "no-store",
   });
 }
+
+export async function addDiscordRoleToMember(
+  guildId: string,
+  discordUserId: string,
+  roleId: string,
+  botToken: string
+) {
+  return discordFetch(`/guilds/${guildId}/members/${discordUserId}/roles/${roleId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bot ${botToken}`,
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
+}

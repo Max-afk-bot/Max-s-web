@@ -47,12 +47,6 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
     .maybeSingle();
 
   if (error) {
-    console.error("Supabase fetchProfile error:", {
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
-      code: error.code,
-    });
     return null;
   }
   return data ?? null;
@@ -79,10 +73,6 @@ export async function upsertProfile(
     if (error) {
       const raw = error as unknown as Record<string, unknown>;
       const keys = Object.getOwnPropertyNames(error as object);
-      const details = keys.reduce<Record<string, unknown>>((acc, key) => {
-        acc[key] = (raw as Record<string, unknown>)[key];
-        return acc;
-      }, {});
       const message =
         (raw?.message as string | undefined) ||
         (raw?.details as string | undefined) ||
@@ -91,10 +81,6 @@ export async function upsertProfile(
         String(error);
       const json = JSON.stringify(error, keys);
 
-      console.error("Supabase upsertProfile error message:", message);
-      console.error("Supabase upsertProfile error details:", details);
-      console.error("Supabase upsertProfile error json:", json);
-      console.dir(error);
       return {
         profile: null,
         error: message || json || "Supabase error",
@@ -104,7 +90,6 @@ export async function upsertProfile(
   } catch (err: unknown) {
     const message =
       err instanceof Error ? err.message : "Unexpected upsert error";
-    console.error("Supabase upsertProfile exception:", err);
     return { profile: null, error: message };
   }
 }

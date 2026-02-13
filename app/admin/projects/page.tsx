@@ -11,6 +11,8 @@ import {
   type ProjectsContent,
   type ProjectItem,
   type CompletedProject,
+  type ProjectTimelineItem,
+  type ProjectGalleryItem,
 } from "@/lib/projects";
 
 const statusOptions = ["Pending", "Active", "Planning", "Paused"];
@@ -22,12 +24,18 @@ export default function AdminProjectsPage() {
     "idle"
   );
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<"draft" | "published">("published");
+  const [draftAvailable, setDraftAvailable] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     fetchProjectsContent().then((data) => {
       if (!mounted || !data) return;
       setForm({ ...defaultProjectsContent, ...data });
+    });
+    fetchProjectsContent("draft").then((data) => {
+      if (!mounted) return;
+      setDraftAvailable(Boolean(data));
     });
     return () => {
       mounted = false;
@@ -52,6 +60,87 @@ export default function AdminProjectsPage() {
       const next = { ...completed[index], ...patch };
       completed[index] = next;
       return { ...prev, completed };
+    });
+  };
+
+  const updateTimeline = (
+    index: number,
+    patch: Partial<ProjectTimelineItem>
+  ) => {
+    setForm((prev) => {
+      const timeline = [...prev.timeline];
+      timeline[index] = { ...timeline[index], ...patch };
+      return { ...prev, timeline };
+    });
+  };
+
+  const addTimeline = () => {
+    setForm((prev) => ({
+      ...prev,
+      timeline: [
+        ...prev.timeline,
+        { title: "New timeline entry", date: "", detail: "" },
+      ],
+    }));
+  };
+
+  const removeTimeline = (index: number) => {
+    setForm((prev) => {
+      const timeline = [...prev.timeline];
+      timeline.splice(index, 1);
+      return { ...prev, timeline };
+    });
+  };
+
+  const updateGallery = (
+    index: number,
+    patch: Partial<ProjectGalleryItem>
+  ) => {
+    setForm((prev) => {
+      const gallery = [...prev.gallery];
+      gallery[index] = { ...gallery[index], ...patch };
+      return { ...prev, gallery };
+    });
+  };
+
+  const addGallery = () => {
+    setForm((prev) => ({
+      ...prev,
+      gallery: [
+        ...prev.gallery,
+        { title: "New image", image: "", link: "" },
+      ],
+    }));
+  };
+
+  const removeGallery = (index: number) => {
+    setForm((prev) => {
+      const gallery = [...prev.gallery];
+      gallery.splice(index, 1);
+      return { ...prev, gallery };
+    });
+  };
+
+  const updateMilestone = (index: number, value: string) => {
+    setForm((prev) => {
+      const milestones = [...prev.milestones];
+      milestones[index] = value;
+      return { ...prev, milestones };
+    });
+  };
+
+  const addMilestone = () => {
+    setForm((prev) => ({
+      ...prev,
+      milestones: [...prev.milestones, "New milestone"],
+    }));
+  };
+
+  const removeMilestone = (index: number) => {
+    setForm((prev) => {
+      const milestones = [...prev.milestones];
+      milestones.splice(index, 1);
+      return { ...prev, milestones };
     });
   };
 
@@ -89,7 +178,15 @@ export default function AdminProjectsPage() {
       ...prev,
       completed: [
         ...prev.completed,
-        { name: "Finished Project", summary: "", link: "", tech: "", year: "" },
+        {
+          name: "Finished Project",
+          summary: "",
+          link: "",
+          tech: "",
+          year: "",
+          downloads: 0,
+          preview: "",
+        },
       ],
     }));
   };
@@ -102,16 +199,37 @@ export default function AdminProjectsPage() {
     });
   };
 
-  const save = async () => {
+  const save = async (target: "draft" | "published") => {
     setStatus("saving");
     setError(null);
-    const { error } = await upsertProjectsContent(form);
+    const { error } = await upsertProjectsContent(
+      form,
+      target === "draft" ? "draft" : "default"
+    );
     if (error) {
       setStatus("error");
       setError(error.message || "Save failed.");
       return;
     }
+    if (target === "draft") setDraftAvailable(true);
+    setMode(target === "draft" ? "draft" : "published");
     setStatus("saved");
+  };
+
+  const loadDraft = async () => {
+    const data = await fetchProjectsContent("draft");
+    if (data) {
+      setForm({ ...defaultProjectsContent, ...data });
+      setMode("draft");
+    }
+  };
+
+  const loadPublished = async () => {
+    const data = await fetchProjectsContent("default");
+    if (data) {
+      setForm({ ...defaultProjectsContent, ...data });
+      setMode("published");
+    }
   };
 
   const projectNames = useMemo(
@@ -125,20 +243,36 @@ export default function AdminProjectsPage() {
         <div>
           <h2 className="text-lg font-semibold">Projects</h2>
           <p className="text-sm text-zinc-400 mt-1">
-            Control which projects are active and shown publicly.
+            Control which projects are active and shown publicly. Save draft or publish live.
           </p>
         </div>
-        <Button onClick={save} disabled={status === "saving"}>
-          {status === "saving" ? "Saving..." : "Save changes"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" onClick={loadPublished}>
+            Load Live
+          </Button>
+          <Button variant="ghost" onClick={loadDraft} disabled={!draftAvailable}>
+            Load Draft
+          </Button>
+          <Button onClick={() => save("draft")} disabled={status === "saving"}>
+            Save Draft
+          </Button>
+          <Button onClick={() => save("published")} disabled={status === "saving"}>
+            Publish Live
+          </Button>
+        </div>
       </div>
 
       {status === "saved" ? (
-        <p className="text-xs text-emerald-400">Saved successfully.</p>
+        <p className="text-xs text-emerald-400">
+          {mode === "draft" ? "Draft saved." : "Published successfully."}
+        </p>
       ) : null}
       {status === "error" ? (
         <p className="text-xs text-red-400">{error}</p>
       ) : null}
+      <p className="text-xs text-zinc-500">
+        Editing: <span className="text-zinc-300">{mode}</span>
+      </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6 space-y-4">
@@ -505,15 +639,166 @@ export default function AdminProjectsPage() {
                 }
               />
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Preview image URL</p>
+                <Input
+                  value={p.preview || ""}
+                  onChange={(e) =>
+                    updateCompleted(idx, { preview: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Downloads</p>
+                <Input
+                  type="number"
+                  value={String(p.downloads ?? 0)}
+                  onChange={(e) =>
+                    updateCompleted(idx, {
+                      downloads: e.target.value === "" ? 0 : Number(e.target.value),
+                    })
+                  }
+                  min={0}
+                />
+              </div>
+            </div>
           </Card>
         ))}
       </div>
 
-      <div className="flex items-center justify-end">
-        <Button onClick={save} disabled={status === "saving"}>
-          {status === "saving" ? "Saving..." : "Save changes"}
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold">Timeline</h3>
+        <Button variant="ghost" onClick={addTimeline}>
+          Add entry
         </Button>
       </div>
+
+      <div className="space-y-4">
+        {form.timeline.length === 0 ? (
+          <Card className="p-6 text-sm text-zinc-400">No timeline entries.</Card>
+        ) : null}
+        {form.timeline.map((item, idx) => (
+          <Card key={`timeline-${idx}`} className="p-6 space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-sm font-semibold">Entry {idx + 1}</div>
+              <Button variant="ghost" onClick={() => removeTimeline(idx)}>
+                Remove
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Title</p>
+                <Input
+                  value={item.title}
+                  onChange={(e) =>
+                    updateTimeline(idx, { title: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Date</p>
+                <Input
+                  value={item.date}
+                  onChange={(e) =>
+                    updateTimeline(idx, { date: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div>
+              <p className="text-xs text-zinc-500 mb-2">Detail</p>
+              <textarea
+                className="w-full min-h-[100px] bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none placeholder:text-zinc-500 focus:border-zinc-700"
+                value={item.detail}
+                onChange={(e) =>
+                  updateTimeline(idx, { detail: e.target.value })
+                }
+              />
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold">Milestones</h3>
+        <Button variant="ghost" onClick={addMilestone}>
+          Add milestone
+        </Button>
+      </div>
+
+      <div className="space-y-4">
+        {form.milestones.length === 0 ? (
+          <Card className="p-6 text-sm text-zinc-400">No milestones yet.</Card>
+        ) : null}
+        {form.milestones.map((item, idx) => (
+          <Card key={`milestone-${idx}`} className="p-6 space-y-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-sm font-semibold">Milestone {idx + 1}</div>
+              <Button variant="ghost" onClick={() => removeMilestone(idx)}>
+                Remove
+              </Button>
+            </div>
+            <Input
+              value={item}
+              onChange={(e) => updateMilestone(idx, e.target.value)}
+            />
+          </Card>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold">Media Gallery</h3>
+        <Button variant="ghost" onClick={addGallery}>
+          Add item
+        </Button>
+      </div>
+
+      <div className="space-y-4">
+        {form.gallery.length === 0 ? (
+          <Card className="p-6 text-sm text-zinc-400">No gallery items yet.</Card>
+        ) : null}
+        {form.gallery.map((item, idx) => (
+          <Card key={`gallery-${idx}`} className="p-6 space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-sm font-semibold">Item {idx + 1}</div>
+              <Button variant="ghost" onClick={() => removeGallery(idx)}>
+                Remove
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Title</p>
+                <Input
+                  value={item.title}
+                  onChange={(e) =>
+                    updateGallery(idx, { title: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 mb-2">Link</p>
+                <Input
+                  value={item.link}
+                  onChange={(e) =>
+                    updateGallery(idx, { link: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div>
+              <p className="text-xs text-zinc-500 mb-2">Image URL</p>
+              <Input
+                value={item.image}
+                onChange={(e) =>
+                  updateGallery(idx, { image: e.target.value })
+                }
+              />
+            </div>
+          </Card>
+        ))}
+      </div>
+
     </div>
   );
 }

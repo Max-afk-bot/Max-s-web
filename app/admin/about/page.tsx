@@ -20,12 +20,18 @@ export default function AdminAboutPage() {
     "idle"
   );
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<"draft" | "published">("published");
+  const [draftAvailable, setDraftAvailable] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     fetchAboutContent().then((data) => {
       if (!mounted || !data) return;
       setForm({ ...defaultAboutContent, ...data });
+    });
+    fetchAboutContent("draft").then((data) => {
+      if (!mounted) return;
+      setDraftAvailable(Boolean(data));
     });
     return () => {
       mounted = false;
@@ -37,7 +43,7 @@ export default function AdminAboutPage() {
   };
 
   const updateArrayItem = (
-    key: "programming_items" | "current_focus" | "principles_items",
+    key: "programming_items" | "current_focus" | "principles_items" | "journey_items",
     index: number,
     value: string
   ) => {
@@ -70,21 +76,46 @@ export default function AdminAboutPage() {
     }));
   };
 
-  const save = async () => {
+  const save = async (target: "draft" | "published") => {
     setStatus("saving");
     setError(null);
-    const { error } = await upsertAboutContent(form);
+    const { error } = await upsertAboutContent(
+      form,
+      target === "draft" ? "draft" : "default"
+    );
     if (error) {
       setStatus("error");
       setError(error.message || "Save failed.");
       return;
     }
+    if (target === "draft") setDraftAvailable(true);
+    setMode(target === "draft" ? "draft" : "published");
     setStatus("saved");
+  };
+
+  const loadDraft = async () => {
+    const data = await fetchAboutContent("draft");
+    if (data) {
+      setForm({ ...defaultAboutContent, ...data });
+      setMode("draft");
+    }
+  };
+
+  const loadPublished = async () => {
+    const data = await fetchAboutContent("default");
+    if (data) {
+      setForm({ ...defaultAboutContent, ...data });
+      setMode("published");
+    }
   };
 
   const programmingItems = useMemo(
     () => [...form.programming_items, "", "", ""].slice(0, 3),
     [form.programming_items]
+  );
+  const journeyItems = useMemo(
+    () => [...form.journey_items, "", "", ""].slice(0, 3),
+    [form.journey_items]
   );
   const focusItems = useMemo(
     () => [...form.current_focus, "", "", ""].slice(0, 3),
@@ -101,20 +132,36 @@ export default function AdminAboutPage() {
         <div>
           <h2 className="text-lg font-semibold">About Page Content</h2>
           <p className="text-sm text-zinc-400 mt-1">
-            Edit text blocks and chips. Save to publish.
+            Edit text blocks and chips. Save draft or publish live.
           </p>
         </div>
-        <Button onClick={save} disabled={status === "saving"}>
-          {status === "saving" ? "Saving..." : "Save changes"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" onClick={loadPublished}>
+            Load Live
+          </Button>
+          <Button variant="ghost" onClick={loadDraft} disabled={!draftAvailable}>
+            Load Draft
+          </Button>
+          <Button onClick={() => save("draft")} disabled={status === "saving"}>
+            Save Draft
+          </Button>
+          <Button onClick={() => save("published")} disabled={status === "saving"}>
+            Publish Live
+          </Button>
+        </div>
       </div>
 
       {status === "saved" ? (
-        <p className="text-xs text-emerald-400">Saved successfully.</p>
+        <p className="text-xs text-emerald-400">
+          {mode === "draft" ? "Draft saved." : "Published successfully."}
+        </p>
       ) : null}
       {status === "error" ? (
         <p className="text-xs text-red-400">{error}</p>
       ) : null}
+      <p className="text-xs text-zinc-500">
+        Editing: <span className="text-zinc-300">{mode}</span>
+      </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6 space-y-4">
@@ -161,6 +208,28 @@ export default function AdminAboutPage() {
                 value={item}
                 onChange={(e) =>
                   updateArrayItem("programming_items", idx, e.target.value)
+                }
+              />
+            </div>
+          ))}
+        </Card>
+
+        <Card className="p-6 space-y-4">
+          <h3 className="text-sm font-semibold">Learning Journey</h3>
+          <div>
+            <p className="text-xs text-zinc-500 mb-2">Title</p>
+            <Input
+              value={form.journey_title}
+              onChange={(e) => update("journey_title", e.target.value)}
+            />
+          </div>
+          {journeyItems.map((item, idx) => (
+            <div key={`journey-item-${idx}`}>
+              <p className="text-xs text-zinc-500 mb-2">Item {idx + 1}</p>
+              <Input
+                value={item}
+                onChange={(e) =>
+                  updateArrayItem("journey_items", idx, e.target.value)
                 }
               />
             </div>
@@ -316,11 +385,6 @@ export default function AdminAboutPage() {
         </Card>
       </div>
 
-      <div className="flex items-center justify-end">
-        <Button onClick={save} disabled={status === "saving"}>
-          {status === "saving" ? "Saving..." : "Save changes"}
-        </Button>
-      </div>
     </div>
   );
 }

@@ -838,6 +838,74 @@
   }
 }
 
+/* ---------- Mobile performance trims ---------- */
+@media (max-width: 768px) {
+  .premium-bg {
+    filter: blur(28px) saturate(115%);
+    opacity: 0.45;
+  }
+
+  .auth-orb {
+    filter: blur(24px);
+    opacity: 0.35;
+  }
+
+  .auth-card {
+    backdrop-filter: blur(6px) saturate(110%);
+  }
+
+  .dashboard-bloom {
+    filter: blur(3px);
+    opacity: 0.5;
+  }
+
+  .dashboard-spotlight {
+    filter: blur(0);
+    opacity: 0.4;
+  }
+
+  .about-aurora {
+    filter: blur(10px) saturate(120%);
+    opacity: 0.6;
+  }
+
+  .projects-glow,
+  .gaming-vortex {
+    filter: blur(8px);
+    opacity: 0.55;
+  }
+
+  .dashboard-scanlines {
+    opacity: 0.25;
+  }
+
+  .dashboard-mist,
+  .dashboard-bloom {
+    opacity: 0.35;
+  }
+
+  .about-grid,
+  .about-orbits,
+  .about-particles,
+  .about-rings {
+    opacity: 0.2;
+  }
+
+  .projects-beam,
+  .projects-particles {
+    opacity: 0.25;
+  }
+
+  .gaming-noise {
+    opacity: 0.25;
+  }
+
+  .legal-footer::before {
+    filter: blur(6px);
+    opacity: 0.3;
+  }
+}
+
 /* ---------- Skeleton shimmer ---------- */
 @keyframes shimmer {
   0% { background-position: -200% 0; }

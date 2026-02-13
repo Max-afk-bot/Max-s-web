@@ -5,6 +5,8 @@ export type AboutContent = {
   hero_paragraph: string;
   focus_value: string;
   direction_value: string;
+  journey_title: string;
+  journey_items: string[];
   programming_items: string[];
   gaming_tagline: string;
   gaming_chips: string[];
@@ -31,6 +33,12 @@ export const defaultAboutContent: AboutContent = {
     "Welcome to my space. Here you can access my socials and learn more about the work I am building. I am an intermediate Python programmer with a strong interest in gaming and modern web experiences. I am shaping this site to feel premium, fast, and clear while evolving my skills in AI and machine learning for the future.",
   focus_value: "Python and web UI",
   direction_value: "AI and ML path",
+  journey_title: "Learning Journey",
+  journey_items: [
+    "Started Python 6 months ago and building daily projects.",
+    "Sharpening web UI skills with Next.js + Tailwind.",
+    "Moving toward AI/ML and security focused engineering.",
+  ],
   programming_items: [
     "Python for 6 months and growing fast",
     "Basic web development and clean UI structure",
@@ -76,20 +84,25 @@ export const defaultAboutContent: AboutContent = {
   ],
 };
 
-export async function fetchAboutContent(): Promise<AboutContent | null> {
+export async function fetchAboutContent(
+  id: string = "default"
+): Promise<AboutContent | null> {
   const { data, error } = await supabase
     .from("about_content")
     .select("content")
-    .eq("id", "default")
+    .eq("id", id)
     .maybeSingle();
   if (error || !data?.content) return null;
   return data.content as AboutContent;
 }
 
-export async function upsertAboutContent(content: AboutContent) {
+export async function upsertAboutContent(
+  content: AboutContent,
+  id: string = "default"
+) {
   return supabase
     .from("about_content")
-    .upsert({ id: "default", content })
+    .upsert({ id, content })
     .select()
     .single();
 }

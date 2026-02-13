@@ -5,6 +5,11 @@ import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { supabase } from "@/lib/supabaseClient";
+import {
+  defaultSiteSettings,
+  normalizeSiteSettings,
+  type SiteSettings,
+} from "@/lib/siteSettings";
 
 type DiscordConfig = {
   guild_id: string;
@@ -41,43 +46,72 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [siteSettings, setSiteSettings] =
+    useState<SiteSettings>(defaultSiteSettings);
+  const [siteLoading, setSiteLoading] = useState(true);
+  const [siteSaving, setSiteSaving] = useState(false);
+  const [siteStatus, setSiteStatus] = useState<"idle" | "saved" | "error">(
+    "idle"
+  );
+  const [siteError, setSiteError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setSiteLoading(true);
+    setSiteError(null);
     const { data } = await supabase.auth.getSession();
     const token = data.session?.access_token;
     if (!token) {
       setError("No admin session.");
       setLoading(false);
+      setSiteLoading(false);
       return;
     }
 
-    const res = await fetch("/api/admin/discord-config", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const body = (await res.json().catch(() => ({}))) as {
+    const [discordRes, siteRes] = await Promise.all([
+      fetch("/api/admin/discord-config", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      fetch("/api/admin/site-settings", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    ]);
+
+    const discordBody = (await discordRes.json().catch(() => ({}))) as {
       error?: string;
       config?: DiscordConfig;
       env_ready?: EnvReady;
     };
 
-    if (!res.ok) {
-      setError(body.error || "Failed to load admin settings.");
-      setLoading(false);
-      return;
+    if (!discordRes.ok) {
+      setError(discordBody.error || "Failed to load admin settings.");
+    } else {
+      setForm({
+        ...defaultConfig,
+        ...(discordBody.config || {}),
+      });
+      setEnvReady({
+        ...defaultEnvReady,
+        ...(discordBody.env_ready || {}),
+      });
     }
 
-    setForm({
-      ...defaultConfig,
-      ...(body.config || {}),
-    });
-    setEnvReady({
-      ...defaultEnvReady,
-      ...(body.env_ready || {}),
-    });
+    const siteBody = (await siteRes.json().catch(() => ({}))) as {
+      error?: string;
+      settings?: SiteSettings;
+    };
+
+    if (!siteRes.ok) {
+      setSiteError(siteBody.error || "Failed to load site settings.");
+    } else {
+      setSiteSettings(normalizeSiteSettings(siteBody.settings));
+    }
+
     setLoading(false);
+    setSiteLoading(false);
   }, []);
 
   useEffect(() => {
@@ -127,6 +161,64 @@ export default function AdminSettingsPage() {
     });
     setStatus("saved");
     setSaving(false);
+  };
+
+  const saveSite = async () => {
+    setSiteSaving(true);
+    setSiteStatus("idle");
+    setSiteError(null);
+
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) {
+      setSiteSaving(false);
+      setSiteStatus("error");
+      setSiteError("No admin session.");
+      return;
+    }
+
+    const res = await fetch("/api/admin/site-settings", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ settings: siteSettings }),
+    });
+
+    const body = (await res.json().catch(() => ({}))) as {
+      error?: string;
+      settings?: SiteSettings;
+    };
+
+    if (!res.ok) {
+      setSiteStatus("error");
+      setSiteSaving(false);
+      setSiteError(body.error || "Save failed.");
+      return;
+    }
+
+    setSiteSettings(normalizeSiteSettings(body.settings));
+    setSiteStatus("saved");
+    setSiteSaving(false);
+  };
+
+  const toggle = (
+    section: keyof SiteSettings,
+    key: string,
+    value?: boolean
+  ) => {
+    setSiteSettings((prev) => {
+      const group = prev[section] as Record<string, unknown>;
+      const current = Boolean(group[key]);
+      return {
+        ...prev,
+        [section]: {
+          ...group,
+          [key]: value ?? !current,
+        },
+      } as SiteSettings;
+    });
   };
 
   const envItems: Array<{ label: string; ready: boolean }> = [
@@ -197,6 +289,187 @@ export default function AdminSettingsPage() {
             }
             placeholder="Role ID for team-only access"
           />
+        </div>
+      </Card>
+
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h3 className="text-sm font-semibold">Site Visibility</h3>
+            <p className="text-xs text-zinc-500">
+              Toggle page sections without redeploying.
+            </p>
+          </div>
+          <Button onClick={saveSite} disabled={siteLoading || siteSaving}>
+            {siteSaving ? "Saving..." : "Save Site"}
+          </Button>
+        </div>
+
+        {siteStatus === "saved" ? (
+          <p className="text-xs text-emerald-400">Site settings saved.</p>
+        ) : null}
+        {siteStatus === "error" || siteError ? (
+          <p className="text-xs text-red-400">{siteError || "Error."}</p>
+        ) : null}
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium">Maintenance Mode</div>
+            <label className="flex items-center gap-2 text-xs text-zinc-400">
+              <input
+                type="checkbox"
+                checked={siteSettings.maintenance.enabled}
+                onChange={(e) =>
+                  toggle("maintenance", "enabled", e.target.checked)
+                }
+              />
+              Enabled
+            </label>
+          </div>
+          <Input
+            placeholder="Maintenance message"
+            value={siteSettings.maintenance.message}
+            onChange={(e) =>
+              setSiteSettings((prev) => ({
+                ...prev,
+                maintenance: { ...prev.maintenance, message: e.target.value },
+              }))
+            }
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              Navigation
+            </div>
+            {[
+              ["show_about", "About"],
+              ["show_gaming", "Gaming"],
+              ["show_projects", "Projects"],
+              ["show_contact", "Contact"],
+              ["show_social", "Social"],
+              ["show_documentation", "Docs"],
+            ].map(([key, label]) => (
+              <label key={key} className="flex items-center justify-between">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(siteSettings.nav[key as keyof SiteSettings["nav"]])}
+                  onChange={(e) => toggle("nav", key, e.target.checked)}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              Dashboard
+            </div>
+            {[
+              ["show_intro", "Intro"],
+              ["show_stats", "Stats"],
+              ["show_quick_links", "Quick links"],
+              ["show_sections", "Sections grid"],
+              ["show_profile_hint", "Profile hint"],
+            ].map(([key, label]) => (
+              <label key={key} className="flex items-center justify-between">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(
+                    siteSettings.dashboard[key as keyof SiteSettings["dashboard"]]
+                  )}
+                  onChange={(e) => toggle("dashboard", key, e.target.checked)}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              About
+            </div>
+            {[
+              ["show_programming", "Programming"],
+              ["show_gaming", "Gaming"],
+              ["show_skill_stack", "Skill stack"],
+              ["show_focus", "Current focus"],
+              ["show_principles", "Principles"],
+            ].map(([key, label]) => (
+              <label key={key} className="flex items-center justify-between">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(
+                    siteSettings.about[key as keyof SiteSettings["about"]]
+                  )}
+                  onChange={(e) => toggle("about", key, e.target.checked)}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              Projects
+            </div>
+            {[
+              ["show_completed", "Completed"],
+              ["show_active", "Active"],
+              ["show_pipeline", "Pipeline"],
+              ["show_timeline", "Timeline"],
+              ["show_milestones", "Milestones"],
+              ["show_gallery", "Gallery"],
+            ].map(([key, label]) => (
+              <label key={key} className="flex items-center justify-between">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(
+                    siteSettings.projects[key as keyof SiteSettings["projects"]]
+                  )}
+                  onChange={(e) => toggle("projects", key, e.target.checked)}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              Contact
+            </div>
+            {[
+              ["show_form", "Form"],
+              ["show_socials", "Socials"],
+              ["show_availability", "Availability"],
+            ].map(([key, label]) => (
+              <label key={key} className="flex items-center justify-between">
+                <span>{label}</span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(
+                    siteSettings.contact[key as keyof SiteSettings["contact"]]
+                  )}
+                  onChange={(e) => toggle("contact", key, e.target.checked)}
+                />
+              </label>
+            ))}
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-4 space-y-2">
+            <div className="text-xs text-zinc-500 uppercase tracking-wide">
+              Footer
+            </div>
+            <label className="flex items-center justify-between">
+              <span>Docs links</span>
+              <input
+                type="checkbox"
+                checked={siteSettings.footer.show_docs}
+                onChange={(e) => toggle("footer", "show_docs", e.target.checked)}
+              />
+            </label>
+          </div>
         </div>
       </Card>
 

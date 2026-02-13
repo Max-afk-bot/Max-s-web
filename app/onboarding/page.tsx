@@ -12,6 +12,7 @@ import {
   type ProfileDraft,
   upsertProfile,
 } from "@/lib/profile";
+import { isValidUsername, normalizeAge, normalizeUsername } from "@/lib/validators";
 import {
   AtSign,
   Calendar,
@@ -263,6 +264,14 @@ export default function OnboardingPage() {
   }, [current, form]);
 
   const update = (key: keyof ProfileDraft, value: string) => {
+    if (key === "age") {
+      setForm((p) => ({ ...p, age: normalizeAge(value) }));
+      return;
+    }
+    if (key === "username") {
+      setForm((p) => ({ ...p, username: normalizeUsername(value) }));
+      return;
+    }
     setForm((p) => ({ ...p, [key]: value }));
   };
 
@@ -290,6 +299,17 @@ export default function OnboardingPage() {
       setError("Please fill this before continuing.");
       return;
     }
+    if (current.key === "username" && !isValidUsername(form.username)) {
+      setError("Username must be 3-20 characters (letters, numbers, underscore).");
+      return;
+    }
+    if (current.key === "age" && form.age) {
+      const ageNum = Number(form.age);
+      if (Number.isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+        setError("Age must be between 1 and 120.");
+        return;
+      }
+    }
     setStep((s) => Math.min(total - 1, s + 1));
   };
 
@@ -298,6 +318,19 @@ export default function OnboardingPage() {
   const finish = async () => {
     if (!userId) return;
     setSaving(true);
+    if (!isValidUsername(form.username)) {
+      setError("Username must be 3-20 characters (letters, numbers, underscore).");
+      setSaving(false);
+      return;
+    }
+    if (form.age) {
+      const ageNum = Number(form.age);
+      if (Number.isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+        setError("Age must be between 1 and 120.");
+        setSaving(false);
+        return;
+      }
+    }
     const { profile, error } = await upsertProfile(userId, form, true);
     if (error || !profile) {
       setError(error ?? "Could not save your profile. Please try again.");
@@ -671,6 +704,8 @@ export default function OnboardingPage() {
               placeholder={current.placeholder}
               value={form[current.key] ?? ""}
               onChange={(e) => update(current.key, e.target.value)}
+              min={current.key === "age" ? 1 : undefined}
+              max={current.key === "age" ? 120 : undefined}
             />
           )}
           {current.optional ? (

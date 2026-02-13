@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 import { NAV_SECTIONS } from "@/data/nav";
 import { supabase } from "@/lib/supabaseClient";
 import { isAdminEmail } from "@/lib/admin";
+import {
+  defaultSiteSettings,
+  fetchSiteSettings,
+  type SiteSettings,
+} from "@/lib/siteSettings";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href + "/");
@@ -23,6 +28,8 @@ export default function Sidebar({
   const [pinned, setPinned] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [siteSettings, setSiteSettings] =
+    useState<SiteSettings>(defaultSiteSettings);
 
   useEffect(() => {
     let mounted = true;
@@ -39,11 +46,27 @@ export default function Sidebar({
     };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    fetchSiteSettings().then((settings) => {
+      if (!mounted) return;
+      setSiteSettings(settings);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const expanded = pinned || hovered;
 
-  const items = NAV_SECTIONS.filter(
-    (x) => x.href !== "/" && (!x.adminOnly || isAdmin)
-  );
+  const items = NAV_SECTIONS.filter((x) => {
+    if (x.href === "/" || (x.adminOnly && !isAdmin)) return false;
+    if (x.href === "/about" && !siteSettings.nav.show_about) return false;
+    if (x.href === "/gaming" && !siteSettings.nav.show_gaming) return false;
+    if (x.href === "/projects" && !siteSettings.nav.show_projects) return false;
+    if (x.href === "/contact" && !siteSettings.nav.show_contact) return false;
+    return true;
+  });
 
   const accentClass = (vibe: string) => {
     if (vibe === "fire") return "accent-fire";

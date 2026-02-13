@@ -8,6 +8,11 @@ import type { LucideIcon } from "lucide-react";
 import { NAV_SECTIONS } from "@/data/nav";
 import { supabase } from "@/lib/supabaseClient";
 import { isAdminEmail } from "@/lib/admin";
+import {
+  defaultSiteSettings,
+  fetchSiteSettings,
+  type SiteSettings,
+} from "@/lib/siteSettings";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href + "/");
@@ -22,6 +27,8 @@ type MobileItem = {
 export default function MobileNav() {
   const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [siteSettings, setSiteSettings] =
+    useState<SiteSettings>(defaultSiteSettings);
 
   useEffect(() => {
     let mounted = true;
@@ -38,10 +45,28 @@ export default function MobileNav() {
     };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    fetchSiteSettings().then((settings) => {
+      if (!mounted) return;
+      setSiteSettings(settings);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const items: MobileItem[] = [
     { title: "Home", href: "/", icon: Home },
     ...NAV_SECTIONS.filter(
-      (x) => x.href !== "/" && x.icon !== null && (!x.adminOnly || isAdmin)
+      (x) =>
+        x.href !== "/" &&
+        x.icon !== null &&
+        (!x.adminOnly || isAdmin) &&
+        (x.href !== "/about" || siteSettings.nav.show_about) &&
+        (x.href !== "/gaming" || siteSettings.nav.show_gaming) &&
+        (x.href !== "/projects" || siteSettings.nav.show_projects) &&
+        (x.href !== "/contact" || siteSettings.nav.show_contact)
     ).map((x) => ({
       title: x.title,
       href: x.href,

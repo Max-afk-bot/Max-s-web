@@ -15,7 +15,7 @@ export default function AdminLayout({
             Content Control
           </h1>
           <p className="text-sm text-zinc-400 mt-2">
-            Manage About, Gaming, Projects, Inbox, and admin settings.
+            Manage Dashboard, About, Gaming, Projects, Contact, Docs, Inbox, and admin settings.
           </p>
         </div>
 
