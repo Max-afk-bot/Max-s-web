@@ -10,7 +10,7 @@ export default function Button({
   ...props
 }: Props) {
   const base =
-    "px-3 py-2 rounded-lg text-sm font-medium transition disabled:opacity-60";
+    "btn-press btn-luxe px-3 py-2 rounded-lg text-sm font-medium transition disabled:opacity-60";
   const styles =
     variant === "ghost"
       ? "hover:bg-zinc-900"

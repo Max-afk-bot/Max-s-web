@@ -8,11 +8,11 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
   const isHome = pathname === "/";
 
   return (
-    <header className="h-14 flex items-center gap-2 sm:gap-3 px-4 sm:px-6 border-b border-zinc-800 bg-zinc-950/60 backdrop-blur">
+    <header className="topbar-luxe h-14 flex items-center gap-2 sm:gap-3 px-4 sm:px-6 border-b border-zinc-800 bg-zinc-950/60 backdrop-blur">
       {/* Mobile Menu Button */}
       <button
         onClick={onMenu}
-        className="lg:hidden rounded-lg border border-zinc-800 px-3 py-2 text-sm hover:bg-zinc-900 transition btn-press"
+        className="md:hidden rounded-lg border border-zinc-800 px-3 py-2 text-sm hover:bg-zinc-900 transition btn-press"
         aria-label="Open menu"
       >
         Menu

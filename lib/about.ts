@@ -28,36 +28,37 @@ export type AboutContent = {
 };
 
 export const defaultAboutContent: AboutContent = {
-  hero_title: "Max, a competitive gamer and growing Python developer.",
+  hero_title: "Max — competitive gamer and focused Python developer.",
   hero_paragraph:
-    "Welcome to my space. Here you can access my socials and learn more about the work I am building. I am an intermediate Python programmer with a strong interest in gaming and modern web experiences. I am shaping this site to feel premium, fast, and clear while evolving my skills in AI and machine learning for the future.",
-  focus_value: "Python and web UI",
-  direction_value: "AI and ML path",
+    "Welcome to my space. Here you can access my socials and see what I’m building. I’m an intermediate Python programmer with around 6 months of focused practice, and I love competitive gaming. This site is my premium, fast, and clear portfolio while I grow toward AI/ML and security‑focused engineering.",
+  focus_value: "Python + web UI",
+  direction_value: "AI/ML + security",
   journey_title: "Learning Journey",
   journey_items: [
-    "Started Python 6 months ago and building daily projects.",
-    "Sharpening web UI skills with Next.js + Tailwind.",
-    "Moving toward AI/ML and security focused engineering.",
+    "Started Python ~6 months ago and practice consistently with small projects.",
+    "Sharpening web UI skills using Next.js + Tailwind.",
+    "Moving toward AI/ML and security‑focused engineering paths.",
   ],
   programming_items: [
-    "Python for 6 months and growing fast",
+    "Python for 6 months with consistent daily practice",
     "Basic web development and clean UI structure",
-    "Future goal: AI, machine learning, and security path",
+    "Next goal: AI, machine learning, and security path",
   ],
   gaming_tagline: "Main focus of this profile",
   gaming_chips: ["6 years", "Competitive", "Attacking"],
   gaming_experience:
-    "6 years of consistent play with a high pressure, aggressive style.",
+    "6 years of consistent play with a high‑pressure, aggressive style.",
   gaming_strengths:
-    "Attacking mindset, fast decisions, intelligent with strong game basics.",
-  gaming_training: "Focused grind to become a stronger Minecraft player.",
-  gaming_games: ["Minecraft", "Clash of Clans"],
+    "Attacking mindset, fast decisions, intelligent reads, and strong fundamentals.",
+  gaming_training:
+    "Focused training to master Minecraft (Bedrock), especially sword PvP and clutch plays.",
+  gaming_games: ["Minecraft (Bedrock)", "Clash of Clans"],
   gaming_history:
-    "Retired from Free Fire. Now fully focused on long-term mastery.",
+    "Retired from Free Fire and shifted full focus to long‑term mastery.",
   deliver_values: {
-    ui_quality: "Clean and cinematic",
+    ui_quality: "Clean, cinematic, and fast",
     mindset: "Attack, adapt, repeat",
-    direction: "AI and ML",
+    direction: "AI/ML + security",
     experience: "6 years gaming",
   },
   skill_stack: [
@@ -73,10 +74,11 @@ export const defaultAboutContent: AboutContent = {
   ],
   current_focus: [
     "Deepen Python skills and AI foundations",
-    "Ship polished web pages with clean UX",
+    "Ship polished pages with clean UX and motion",
     "Train consistently to master Minecraft",
   ],
-  principles_line: "Train with discipline, build with clarity, and keep raising the bar.",
+  principles_line:
+    "Train with discipline, build with clarity, and keep raising the bar.",
   principles_items: [
     "Competitive mindset and zero fear of losing",
     "Premium visuals with clean structure",

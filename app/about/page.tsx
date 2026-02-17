@@ -51,6 +51,7 @@ export default function AboutPage() {
       <div className="about-grid" aria-hidden="true" />
       <div className="about-orbits" aria-hidden="true" />
       <div className="about-particles" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
 
       <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/70 p-7 about-hero">
         <div className="flex items-start justify-between gap-6">
@@ -59,7 +60,7 @@ export default function AboutPage() {
               <Sparkles size={14} />
               ABOUT PROFILE
             </div>
-            <h1 className="text-3xl sm:text-4xl font-semibold mt-4 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-semibold mt-4 tracking-tight title-ignite">
               {content.hero_title}
             </h1>
             <p className="text-sm text-zinc-400 mt-3 max-w-2xl">

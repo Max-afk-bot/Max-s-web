@@ -24,7 +24,9 @@ export default function PageShell({
             <span className="text-zinc-400">{title}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-semibold mt-2">{title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold mt-2 title-ignite">
+            {title}
+          </h1>
 
           {subtitle ? (
             <p className="text-zinc-400 text-sm mt-2 max-w-2xl">{subtitle}</p>

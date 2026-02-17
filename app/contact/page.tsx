@@ -156,13 +156,19 @@ export default function ContactPage() {
   };
 
   return (
-    <PageShell
-      title={content.hero_title}
-      subtitle={content.hero_subtitle}
-    >
-      <div className="relative">
-        <div className="premium-bg" />
-        <div className="ambient-overlay" />
+    <div className="relative overflow-hidden animate-pageIn contact-stage">
+      <div className="contact-glow" aria-hidden="true" />
+      <div className="contact-rings" aria-hidden="true" />
+      <div className="contact-beam" aria-hidden="true" />
+      <div className="contact-pulse" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
+      <PageShell
+        title={content.hero_title}
+        subtitle={content.hero_subtitle}
+      >
+        <div className="relative">
+          <div className="premium-bg" />
+          <div className="ambient-overlay" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
           {siteSettings.contact.show_form ? (
@@ -366,7 +372,8 @@ export default function ContactPage() {
             </div>
           </LazySection>
         </div>
-      </div>
-    </PageShell>
+        </div>
+      </PageShell>
+    </div>
   );
 }

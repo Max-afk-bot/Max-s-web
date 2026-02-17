@@ -5,6 +5,7 @@ import {
   FolderKanban,
   Settings,
   Shield,
+  Youtube,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -47,6 +48,13 @@ export const NAV_SECTIONS: NavSection[] = [
     icon: FolderKanban,
     desc: "Your builds and work",
     vibe: "neon",
+  },
+  {
+    title: "YouTube",
+    href: "/youtube",
+    icon: Youtube,
+    desc: "Channel and updates",
+    vibe: "fire",
   },
   {
     title: "Contact",

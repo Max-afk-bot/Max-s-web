@@ -27,6 +27,14 @@ body {
 }
 
 @media (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+
   button,
   a,
   [role="button"] {

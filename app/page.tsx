@@ -162,6 +162,8 @@ export default function Home() {
       <div className="dashboard-scanlines" aria-hidden="true" />
       <div className="dashboard-bloom" aria-hidden="true" />
       <div className="dashboard-mist" aria-hidden="true" />
+      <div className="dashboard-grid" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
 
       {/* Floating Accent Layer */}
       <div className="absolute inset-0 pointer-events-none -z-10">
@@ -175,9 +177,17 @@ export default function Home() {
           {content.hero_kicker}
         </p>
 
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-          {content.hero_title.replace("{name}", displayName)}
-        </h1>
+        {(() => {
+          const rawTitle = content.hero_title.replace("{name}", displayName);
+          const hasWave = rawTitle.includes("👋");
+          const titleText = hasWave ? rawTitle.replace("👋", "").trim() : rawTitle;
+          return (
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight title-ignite">
+              {titleText}{" "}
+              {hasWave ? <span className="title-emoji">👋</span> : null}
+            </h1>
+          );
+        })()}
 
         <p className="text-zinc-400 text-sm max-w-2xl">
           {content.hero_subtitle}

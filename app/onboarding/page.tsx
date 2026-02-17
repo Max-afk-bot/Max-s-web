@@ -80,13 +80,13 @@ const steps: Step[] = [
   {
     key: "skills",
     title: "Top skills",
-    hint: "Your strongest skills right now.",
-    placeholder: "e.g. Next.js, UI design, C++",
+    hint: "Your strongest skills right now. Press Enter or tap Add.",
+    placeholder: "Type a skill",
   },
   {
     key: "game",
     title: "Games you play",
-    hint: "Add multiple games you enjoy.",
+    hint: "Add multiple games you enjoy. Press Enter or tap Add.",
     placeholder: "Type a game name",
   },
   {
@@ -209,6 +209,12 @@ const playStyleOptions = [
   "Speedrunner",
 ];
 
+const splitList = (value: string) =>
+  value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -216,11 +222,14 @@ export default function OnboardingPage() {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [showTransition, setShowTransition] = useState(false);
   const [displayProgress, setDisplayProgress] = useState(0);
   const displayProgressRef = useRef(0);
+  const [skillQuery, setSkillQuery] = useState("");
   const [gameQuery, setGameQuery] = useState("");
   const [genreQuery, setGenreQuery] = useState("");
   const [platformQuery, setPlatformQuery] = useState("");
+  const [hobbyQuery, setHobbyQuery] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -232,6 +241,15 @@ export default function OnboardingPage() {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (!showTransition || typeof document === "undefined") return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = original;
+    };
+  }, [showTransition]);
 
   const current = steps[step];
   const total = steps.length;
@@ -277,6 +295,12 @@ export default function OnboardingPage() {
 
   const next = () => {
     setError(null);
+    if (current.key === "skills" && skillQuery.trim()) {
+      addToList("skills", skillQuery.trim());
+      setSkillQuery("");
+      setStep((s) => Math.min(total - 1, s + 1));
+      return;
+    }
     if (current.key === "game" && gameQuery.trim()) {
       addToList("game", gameQuery.trim());
       setGameQuery("");
@@ -292,6 +316,12 @@ export default function OnboardingPage() {
     if (current.key === "platforms" && platformQuery.trim()) {
       addToList("platforms", platformQuery.trim());
       setPlatformQuery("");
+      setStep((s) => Math.min(total - 1, s + 1));
+      return;
+    }
+    if (current.key === "hobby" && hobbyQuery.trim()) {
+      addToList("hobby", hobbyQuery.trim());
+      setHobbyQuery("");
       setStep((s) => Math.min(total - 1, s + 1));
       return;
     }
@@ -350,23 +380,26 @@ export default function OnboardingPage() {
       window.dispatchEvent(new Event("profile-updated"));
       window.dispatchEvent(new Event("onboarding-flags"));
     }
+    setShowTransition(true);
+    const reduce =
+      typeof document !== "undefined" &&
+      document.documentElement.dataset.animations === "off";
+    const delay = reduce ? 200 : 1400;
+    await new Promise((resolve) => setTimeout(resolve, delay));
     router.replace("/");
   };
 
-  const splitList = (value: string) =>
-    value
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-  const addToList = (key: "skills" | "game" | "favorite_genres" | "platforms", value: string) => {
+  const addToList = (
+    key: "skills" | "game" | "favorite_genres" | "platforms" | "hobby",
+    value: string
+  ) => {
     const list = splitList(String(form[key] || ""));
     if (!list.includes(value)) list.push(value);
     update(key, list.join(", "));
   };
 
   const removeFromList = (
-    key: "skills" | "game" | "favorite_genres" | "platforms",
+    key: "skills" | "game" | "favorite_genres" | "platforms" | "hobby",
     value: string
   ) => {
     const list = splitList(String(form[key] || "")).filter((v) => v !== value);
@@ -380,6 +413,34 @@ export default function OnboardingPage() {
     setGameQuery("");
   };
 
+  const addSkillFromQuery = () => {
+    const value = skillQuery.trim();
+    if (!value) return;
+    addToList("skills", value);
+    setSkillQuery("");
+  };
+
+  const addGenreFromQuery = () => {
+    const value = genreQuery.trim();
+    if (!value) return;
+    addToList("favorite_genres", value);
+    setGenreQuery("");
+  };
+
+  const addPlatformFromQuery = () => {
+    const value = platformQuery.trim();
+    if (!value) return;
+    addToList("platforms", value);
+    setPlatformQuery("");
+  };
+
+  const addHobbyFromQuery = () => {
+    const value = hobbyQuery.trim();
+    if (!value) return;
+    addToList("hobby", value);
+    setHobbyQuery("");
+  };
+
   const skillList = useMemo(() => splitList(String(form.skills || "")), [form.skills]);
   const gameList = useMemo(() => splitList(String(form.game || "")), [form.game]);
   const genreList = useMemo(
@@ -390,6 +451,7 @@ export default function OnboardingPage() {
     () => splitList(String(form.platforms || "")),
     [form.platforms]
   );
+  const hobbyList = useMemo(() => splitList(String(form.hobby || "")), [form.hobby]);
 
   const filteredGames = useMemo(() => {
     const q = gameQuery.trim().toLowerCase();
@@ -415,8 +477,16 @@ export default function OnboardingPage() {
     return list.filter((p) => !platformList.includes(p)).slice(0, 6);
   }, [platformQuery, platformList]);
 
+  const filteredSkills = useMemo(() => {
+    const q = skillQuery.trim().toLowerCase();
+    const list = q
+      ? skillSuggestions.filter((s) => s.toLowerCase().includes(q))
+      : skillSuggestions;
+    return list.filter((s) => !skillList.includes(s)).slice(0, 6);
+  }, [skillQuery, skillList]);
+
   return (
-    <div className="min-h-[calc(100vh-48px)] grid place-items-center auth-stage">
+    <div className="min-h-[calc(100vh-48px)] grid place-items-center auth-stage auth-quiet">
       <div className="auth-sheen" aria-hidden="true" />
       <div className="auth-beam" aria-hidden="true" />
       <div className="auth-orb auth-orb-a" aria-hidden="true" />
@@ -511,12 +581,28 @@ export default function OnboardingPage() {
             </select>
           ) : current.key === "skills" ? (
             <>
-              <textarea
-                className="w-full min-h-[96px] bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none placeholder:text-zinc-500 focus:border-zinc-700"
-                placeholder={current.placeholder}
-                value={form[current.key] ?? ""}
-                onChange={(e) => update(current.key, e.target.value)}
-              />
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={current.placeholder}
+                  value={skillQuery}
+                  onChange={(e) => setSkillQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addSkillFromQuery();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  className="px-4 rounded-xl"
+                  onClick={addSkillFromQuery}
+                  disabled={!skillQuery.trim()}
+                >
+                  Add
+                </Button>
+              </div>
               {skillList.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {skillList.map((s) => (
@@ -533,35 +619,51 @@ export default function OnboardingPage() {
                 </div>
               ) : null}
               <div className="mt-3 flex flex-wrap gap-2">
-                {skillSuggestions.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    className={[
-                      "chip",
-                      skillList.includes(s) ? "chip-active" : "",
-                    ].join(" ")}
-                    onClick={() => addToList("skills", s)}
-                  >
-                    {s}
-                  </button>
-                ))}
+                {filteredSkills.length > 0 ? (
+                  filteredSkills.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      className={[
+                        "chip",
+                        skillList.includes(s) ? "chip-active" : "",
+                      ].join(" ")}
+                      onClick={() => addToList("skills", s)}
+                    >
+                      {s}
+                    </button>
+                  ))
+                ) : (
+                  <span className="text-xs text-zinc-500">
+                    No matches. Press Enter to add.
+                  </span>
+                )}
               </div>
             </>
           ) : current.key === "game" ? (
             <>
-              <Input
-                type="text"
-                placeholder={current.placeholder}
-                value={gameQuery}
-                onChange={(e) => setGameQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addGameFromQuery();
-                  }
-                }}
-              />
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={current.placeholder}
+                  value={gameQuery}
+                  onChange={(e) => setGameQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addGameFromQuery();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  className="px-4 rounded-xl"
+                  onClick={addGameFromQuery}
+                  disabled={!gameQuery.trim()}
+                >
+                  Add
+                </Button>
+              </div>
               {gameList.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {gameList.map((g) => (
@@ -598,21 +700,28 @@ export default function OnboardingPage() {
             </>
           ) : current.key === "favorite_genres" ? (
             <>
-              <Input
-                type="text"
-                placeholder={current.placeholder}
-                value={genreQuery}
-                onChange={(e) => setGenreQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    if (genreQuery.trim()) {
-                      addToList("favorite_genres", genreQuery.trim());
-                      setGenreQuery("");
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={current.placeholder}
+                  value={genreQuery}
+                  onChange={(e) => setGenreQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addGenreFromQuery();
                     }
-                  }
-                }}
-              />
+                  }}
+                />
+                <Button
+                  type="button"
+                  className="px-4 rounded-xl"
+                  onClick={addGenreFromQuery}
+                  disabled={!genreQuery.trim()}
+                >
+                  Add
+                </Button>
+              </div>
               {genreList.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {genreList.map((g) => (
@@ -649,21 +758,28 @@ export default function OnboardingPage() {
             </>
           ) : current.key === "platforms" ? (
             <>
-              <Input
-                type="text"
-                placeholder={current.placeholder}
-                value={platformQuery}
-                onChange={(e) => setPlatformQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    if (platformQuery.trim()) {
-                      addToList("platforms", platformQuery.trim());
-                      setPlatformQuery("");
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={current.placeholder}
+                  value={platformQuery}
+                  onChange={(e) => setPlatformQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addPlatformFromQuery();
                     }
-                  }
-                }}
-              />
+                  }}
+                />
+                <Button
+                  type="button"
+                  className="px-4 rounded-xl"
+                  onClick={addPlatformFromQuery}
+                  disabled={!platformQuery.trim()}
+                >
+                  Add
+                </Button>
+              </div>
               {platformList.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {platformList.map((p) => (
@@ -697,6 +813,50 @@ export default function OnboardingPage() {
                   </span>
                 )}
               </div>
+            </>
+          ) : current.key === "hobby" ? (
+            <>
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={current.placeholder}
+                  value={hobbyQuery}
+                  onChange={(e) => setHobbyQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addHobbyFromQuery();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  className="px-4 rounded-xl"
+                  onClick={addHobbyFromQuery}
+                  disabled={!hobbyQuery.trim()}
+                >
+                  Add
+                </Button>
+              </div>
+              {hobbyList.length > 0 ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {hobbyList.map((h) => (
+                    <button
+                      key={h}
+                      type="button"
+                      className="chip chip-active"
+                      onClick={() => removeFromList("hobby", h)}
+                    >
+                      {h}
+                      <span className="chip-x">×</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <span className="mt-3 inline-block text-xs text-zinc-500">
+                  Press Enter or tap Add to save your hobby.
+                </span>
+              )}
             </>
           ) : (
             <Input
@@ -739,6 +899,19 @@ export default function OnboardingPage() {
           )}
         </div>
       </Card>
+      {showTransition ? (
+        <div className="onboard-transition" role="status" aria-live="polite">
+          <div className="onboard-transition__panel">
+            <div className="onboard-transition__label">Entering Dashboard</div>
+            <div className="onboard-transition__bar">
+              <span />
+            </div>
+            <div className="onboard-transition__sub">
+              Finalizing profile and loading your workspace…
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

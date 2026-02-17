@@ -80,6 +80,7 @@ export default function ProjectsPage() {
       <div className="projects-grid" aria-hidden="true" />
       <div className="projects-beam" aria-hidden="true" />
       <div className="projects-particles" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
 
       <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/70 p-7 projects-hero">
         <div className="flex items-start justify-between gap-6">
@@ -88,7 +89,7 @@ export default function ProjectsPage() {
               <FolderKanban size={14} />
               PROJECT LAB
             </div>
-            <h1 className="text-3xl sm:text-4xl font-semibold mt-4 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-semibold mt-4 tracking-tight title-ignite">
               {content.hero_title}
             </h1>
             <p className="text-sm text-zinc-400 mt-3 max-w-2xl">

@@ -52,7 +52,11 @@ export default function DocumentationPage() {
   }
 
   return (
-    <div className="space-y-6 animate-pageIn">
+    <div className="relative space-y-6 overflow-hidden animate-pageIn doc-stage">
+      <div className="doc-aurora" aria-hidden="true" />
+      <div className="doc-grid" aria-hidden="true" />
+      <div className="doc-scanlines" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
       <div className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-6 doc-hero">
         <p className="text-xs uppercase tracking-wide text-zinc-500">
           {content.hero_kicker}

@@ -29,14 +29,14 @@ export type ContactContent = {
 
 export const defaultContactContent: ContactContent = {
   hero_title: "Contact",
-  hero_subtitle: "Reach out directly or connect on social platforms.",
+  hero_subtitle: "Reach out directly for collabs, feedback, or questions.",
   form_title: "Send a message",
   form_subtitle: "I usually reply within 24 to 48 hours.",
-  form_note: "Your message is stored securely.",
+  form_note: "Messages are stored securely for support and follow‑up.",
   availability_title: "Availability",
   availability_text: "Best time to reach me is 11:00 to 20:00 local time.",
   availability_stats: [
-    { label: "Response", value: "24 to 48h" },
+    { label: "Response", value: "24–48h" },
     { label: "Channel", value: "Email or DM" },
   ],
   socials_title: "Social links",

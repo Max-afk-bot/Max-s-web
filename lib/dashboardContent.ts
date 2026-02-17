@@ -39,7 +39,7 @@ export const defaultDashboardContent: DashboardContent = {
   hero_kicker: "Dashboard Overview",
   hero_title: "Welcome, {name} 👋",
   hero_subtitle:
-    "A clean, fast dashboard you can later connect with your backend + database. For now it’s the immersive UI foundation.",
+    "Your personal control hub for projects, stats, and updates. Built for speed now, ready to sync with full backend data later.",
   stats: [
     { title: "Projects", value: "03" },
     { title: "Skills" },
@@ -49,22 +49,22 @@ export const defaultDashboardContent: DashboardContent = {
   intro: {
     title: "Intro",
     text:
-      "I’m Max. Student, coder, gamer. Building a clean portfolio + dashboard with Next.js and Tailwind.",
+      "I’m Max — a student, coder, and competitive gamer. This site is my evolving space for projects, skills, and gaming progress, built with Next.js and Tailwind.",
     modeLabel: "Mode",
     modeValue: "Focus",
   },
   mini_cards: [
-    { label: "Today", value: "1% better" },
-    { label: "Next", value: "Projects page" },
-    { label: "Later", value: "Backend + DB" },
+    { label: "Today", value: "Improve + ship" },
+    { label: "Next", value: "Projects + uploads" },
+    { label: "Later", value: "Live stats + DB" },
   ],
   quick_links: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "Discord", href: "https://discord.com/" },
-    { label: "Resume", href: "/profile" },
+    { label: "Discord", href: "https://discord.gg/RpgKb4FG" },
+    { label: "YouTube", href: "https://youtube.com/@max_lifeyt?si=_yq83jCglUPXeFwi" },
+    { label: "Instagram", href: "https://www.instagram.com/abcd1939efj/" },
   ],
   sections_title: "Sections",
-  sections_subtitle: "Quick areas of your site (immersive mode enabled ✨)",
+  sections_subtitle: "Quick access to each part of the site (immersive mode enabled ✨).",
   version_label: "v4",
 };
 

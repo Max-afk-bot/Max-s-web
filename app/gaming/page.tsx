@@ -1121,17 +1121,21 @@ import { Gamepad2, Sparkles, Shield } from "lucide-react";
 
 export default function GamingPage() {
   return (
-    <div className="space-y-6 animate-pageIn">
-      <Card className="p-6 border-zinc-800 bg-zinc-950/70">
+    <div className="space-y-6 animate-pageIn relative overflow-hidden gaming-stage-plus">
+      <div className="gaming-vortex" aria-hidden="true" />
+      <div className="gaming-noise" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
+
+      <Card className="p-6 border-zinc-800 bg-zinc-950/70 glow">
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-2xl border border-zinc-800 bg-zinc-900/40 grid place-items-center">
+          <div className="h-12 w-12 rounded-2xl border border-zinc-800 bg-zinc-900/40 grid place-items-center gaming-ignite">
             <Gamepad2 size={20} className="opacity-80" />
           </div>
           <div>
             <p className="text-xs text-zinc-500 uppercase tracking-wide">
               Gaming hub
             </p>
-            <h1 className="text-2xl sm:text-3xl font-semibold">
+            <h1 className="text-2xl sm:text-3xl font-semibold title-ignite">
               Coming soon
             </h1>
           </div>
@@ -1143,13 +1147,13 @@ export default function GamingPage() {
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <Link
             href="/projects"
-            className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm hover:bg-zinc-900/70 transition"
+            className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm hover:bg-zinc-900/70 transition btn-luxe"
           >
             View projects
           </Link>
           <Link
             href="/contact"
-            className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm hover:bg-zinc-900/70 transition"
+            className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm hover:bg-zinc-900/70 transition btn-luxe"
           >
             Contact
           </Link>
@@ -1157,7 +1161,7 @@ export default function GamingPage() {
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="p-5 border-zinc-800 bg-zinc-950/60">
+        <Card className="p-5 border-zinc-800 bg-zinc-950/60 card-shine">
           <div className="flex items-center gap-2 text-sm font-semibold">
             <Sparkles size={16} className="opacity-80" />
             Planned features
@@ -1175,7 +1179,7 @@ export default function GamingPage() {
           </ul>
         </Card>
 
-        <Card className="p-5 border-zinc-800 bg-zinc-950/60">
+        <Card className="p-5 border-zinc-800 bg-zinc-950/60 card-shine">
           <div className="flex items-center gap-2 text-sm font-semibold">
             <Shield size={16} className="opacity-80" />
             Early access

@@ -40,6 +40,42 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const applyAppearance = () => {
+      const mode = window.localStorage.getItem("appearance_mode") || "premium";
+      document.documentElement.dataset.appearance = mode;
+    };
+    applyAppearance();
+    window.addEventListener("appearance-change", applyAppearance);
+    window.addEventListener("storage", applyAppearance);
+    return () => {
+      window.removeEventListener("appearance-change", applyAppearance);
+      window.removeEventListener("storage", applyAppearance);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const applyAnimations = () => {
+      const isCoarse =
+        window.matchMedia &&
+        window.matchMedia("(pointer: coarse)").matches;
+      const stored = window.localStorage.getItem("animations_enabled") || "on";
+      const mode = isCoarse ? "off" : stored;
+      document.documentElement.dataset.animations = mode;
+    };
+    applyAnimations();
+    window.addEventListener("animation-change", applyAnimations);
+    window.addEventListener("storage", applyAnimations);
+    window.addEventListener("resize", applyAnimations);
+    return () => {
+      window.removeEventListener("animation-change", applyAnimations);
+      window.removeEventListener("storage", applyAnimations);
+      window.removeEventListener("resize", applyAnimations);
+    };
+  }, []);
+
   return (
     <SfxProvider>
       <AuthGate>
@@ -72,8 +108,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               {/* Page content */}
               <div className="p-4 sm:p-6 pb-20 lg:pb-6">
                 <div className="max-w-6xl mx-auto">
-                  <PageTransition>{children}</PageTransition>
-                  {!isAuthRoute ? <SiteFooter /> : null}
+                  <div className="relative rounded-[28px] overflow-hidden">
+                    <PageTransition>{children}</PageTransition>
+                    {!isAuthRoute ? <SiteFooter /> : null}
+                  </div>
                 </div>
               </div>
             </div>

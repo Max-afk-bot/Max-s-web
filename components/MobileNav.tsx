@@ -75,7 +75,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-50 lg:hidden">
+    <nav className="fixed bottom-0 inset-x-0 z-50 md:hidden">
       <div
         className="border-t border-zinc-800 bg-zinc-950/85 backdrop-blur"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}

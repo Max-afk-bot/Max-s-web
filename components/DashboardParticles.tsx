@@ -11,7 +11,7 @@ type Dot = {
   a: number;
 };
 
-type Variant = "default" | "dashboard";
+type Variant = "default" | "dashboard" | "youtube";
 
 export default function DashboardParticles({
   className = "",
@@ -33,6 +33,13 @@ export default function DashboardParticles({
       typeof window !== "undefined" &&
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isCoarse =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(pointer: coarse)").matches;
+    const isLarge =
+      typeof window !== "undefined" &&
+      window.innerWidth >= 1024;
 
     let raf = 0;
     let w = 0;
@@ -40,7 +47,13 @@ export default function DashboardParticles({
     const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
     const dots: Dot[] = [];
-    const COUNT = variant === "dashboard" ? 120 : 60;
+    const baseCount = variant === "dashboard" ? 120 : variant === "youtube" ? 80 : 60;
+    const COUNT = isCoarse
+      ? Math.max(18, Math.round(baseCount * 0.35))
+      : isLarge
+      ? Math.round(baseCount * 1.5)
+      : baseCount;
+    const speedScale = isCoarse ? 0.4 : isLarge ? 1.2 : 1;
 
     const rand = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -61,13 +74,22 @@ export default function DashboardParticles({
     const seed = () => {
       dots.length = 0;
       for (let i = 0; i < COUNT; i++) {
+        const baseR = variant === "dashboard" ? 3.1 : 2.6;
+        const maxR = isLarge ? baseR + 0.6 : baseR;
+        const maxA = variant === "dashboard"
+          ? isLarge
+            ? 0.35
+            : 0.28
+          : isLarge
+          ? 0.26
+          : 0.22;
         dots.push({
           x: rand(0, w),
           y: rand(0, h),
-          vx: rand(-0.16, 0.18),
-          vy: rand(-0.12, 0.16),
-          r: rand(1.2, variant === "dashboard" ? 3.1 : 2.6),
-          a: rand(0.08, variant === "dashboard" ? 0.28 : 0.22),
+          vx: rand(-0.16, 0.18) * speedScale,
+          vy: rand(-0.12, 0.16) * speedScale,
+          r: rand(1.0, maxR),
+          a: rand(isCoarse ? 0.05 : 0.08, maxA),
         });
       }
     };
@@ -87,6 +109,9 @@ export default function DashboardParticles({
       if (variant === "dashboard") {
         g.addColorStop(0, "rgba(120,255,220,0.10)");
         g.addColorStop(0.45, "rgba(90,120,255,0.08)");
+      } else if (variant === "youtube") {
+        g.addColorStop(0, "rgba(94,234,212,0.12)");
+        g.addColorStop(0.45, "rgba(14,165,233,0.08)");
       } else {
         g.addColorStop(0, "rgba(80,180,255,0.08)");
         g.addColorStop(0.45, "rgba(120,90,255,0.05)");
@@ -104,7 +129,12 @@ export default function DashboardParticles({
         if (d.y < -10) d.y = h + 10;
         if (d.y > h + 10) d.y = -10;
 
-        const base = variant === "dashboard" ? "180, 255, 240" : "180, 220, 255";
+        const base =
+          variant === "dashboard"
+            ? "180, 255, 240"
+            : variant === "youtube"
+            ? "160, 240, 235"
+            : "180, 220, 255";
 
         // soft motion streak for dashboard only
         if (variant === "dashboard") {
@@ -128,11 +158,13 @@ export default function DashboardParticles({
       raf = requestAnimationFrame(step);
     };
 
+    const allowAnim = !prefersReduce && !isCoarse;
+
     resize();
     seed();
     draw();
 
-    if (!prefersReduce) {
+    if (allowAnim) {
       step();
     }
 

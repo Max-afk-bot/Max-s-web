@@ -53,24 +53,24 @@ export type ProjectsContent = {
 };
 
 export const defaultProjectsContent: ProjectsContent = {
-  hero_title: "Projects in motion, focused on clean UI and gaming energy.",
+  hero_title: "Projects in motion with clean UI and gaming energy.",
   hero_paragraph:
-    "This section tracks active builds, upcoming ideas, and long-term experiments. Each project is designed to feel premium and fast.",
+    "This space tracks active builds, long‑term experiments, and learning packs. Every project is built to feel premium, fast, and clear.",
   stats_total_label: "Total Projects",
   stats_total_subtitle: "Across web and gaming.",
   stats_focus_label: "Main Focus",
-  stats_focus_value: "",
-  stats_focus_subtitle: "",
+  stats_focus_value: "Dashboard + Python packs",
+  stats_focus_subtitle: "UI polish + learning depth.",
   stats_gaming_label: "Gaming Edge",
-  stats_gaming_value: "Minecraft mastery",
-  stats_gaming_subtitle: "Training + skill build.",
+  stats_gaming_value: "Unity horror game",
+  stats_gaming_subtitle: "Long‑term Android build.",
   projects: [
     {
       name: "Dashboard Website",
       status: "Pending",
       tech: "Next.js + Tailwind",
-      desc: "Premium UI, onboarding flow, and scalable layout system.",
-      progress: 25,
+      desc: "Premium UI, onboarding flow, admin content control, and scalable layout.",
+      progress: 30,
       tags: ["UI", "Frontend", "Supabase"],
     },
     {
@@ -78,14 +78,14 @@ export const defaultProjectsContent: ProjectsContent = {
       status: "Pending",
       tech: "Unity (Android) + C#",
       desc: "Started Jan 1, 2016. Android build in Unity with no release date yet.",
-      progress: 10,
+      progress: 12,
       tags: ["Game", "Unity", "Prototype"],
     },
   ],
   completed: [
     {
       name: "Python50 (Beginner Pack)",
-      summary: "50 basic Python projects packed in one folder.",
+      summary: "50 beginner Python projects covering fundamentals and logic building.",
       link: "https://github.com/user-attachments/files/25281435/python50.zip",
       tech: "Python",
       year: "2026",
@@ -95,7 +95,7 @@ export const defaultProjectsContent: ProjectsContent = {
     },
     {
       name: "Python50 Medium Pack",
-      summary: "50 medium-level Python projects to level up skills.",
+      summary: "50 medium‑level Python projects to level up real problem solving.",
       link: "https://github.com/user-attachments/files/25281436/python50medium.zip",
       tech: "Python",
       year: "2026",
@@ -105,7 +105,7 @@ export const defaultProjectsContent: ProjectsContent = {
     },
     {
       name: "Python Intermediate Pack",
-      summary: "100 intermediate-level Python projects in one pack.",
+      summary: "100 intermediate Python projects for consistent skill growth.",
       link: "https://github.com/user-attachments/files/25281440/pythonintermediate.zip",
       tech: "Python",
       year: "2026",
@@ -118,21 +118,21 @@ export const defaultProjectsContent: ProjectsContent = {
   pipeline: [
     {
       title: "Design and Layout",
-      text: "Crafting the visual system and responsive structure.",
+      text: "Crafting the visual system, motion language, and responsive layout.",
     },
     {
       title: "Build Core Features",
-      text: "Auth, onboarding, settings, and dashboard logic.",
+      text: "Auth, onboarding, settings, admin tools, and data wiring.",
     },
     {
       title: "Launch and Iterate",
-      text: "Ship fast and improve based on real usage.",
+      text: "Ship fast, then improve with real feedback and data.",
     },
   ],
   experiments: [
-    "AI powered summaries for profile pages",
-    "Performance pass for mobile animations",
-    "Gameplay tracker dashboard",
+    "AI‑powered summaries for profile pages",
+    "Performance passes for mobile motion",
+    "Gameplay tracker dashboard concepts",
   ],
   timeline: [
     {

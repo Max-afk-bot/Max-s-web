@@ -24,31 +24,31 @@ export const defaultDocumentationContent: DocumentationContent = {
   hero_kicker: "Legal",
   hero_title: "Documentation",
   hero_subtitle:
-    "Terms, privacy, ad preferences, and platform notices for this website. These sections explain how the platform works and how data is handled.",
+    "Terms, privacy, and platform notices for this website. These sections explain how the platform works and how data is handled.",
   sections: [
     {
       id: "conditions-use-sale",
       title: "1. Conditions of Use & Sale",
       body:
-        "By using this platform, you agree to use it for lawful and fair activity. Unauthorized access, abuse, fraud, scraping attacks, or actions that harm users or infrastructure are prohibited.\n\nFeatures, visuals, and pricing (if introduced later) may change over time. We may update, pause, or remove features to improve security, reliability, and product quality.",
+        "By using this platform, you agree to use it for lawful and fair activity. Unauthorized access, abuse, fraud, scraping, or actions that harm users or infrastructure are prohibited.\n\nFeatures, visuals, and pricing (if introduced later) may change over time. We may update, pause, or remove features to improve security, reliability, and quality.",
     },
     {
       id: "privacy-notice",
       title: "2. Privacy Notice",
       body:
-        "We store user account and profile data in Supabase to run core features: authentication, onboarding, profile settings, and contact workflows. Data is stored for platform operation and personalization only.\n\nWe do not sell personal data, and we do not use user data for unrelated advertising systems. User data is not repurposed for external marketing.\n\nInformation currently stored can include account identity from sign-in provider, profile details entered in onboarding/settings, and contact form messages submitted by users.\n\nData is retained to keep your account and app features working. If you need manual data removal or account closure, submit a request from the contact page.",
+        "We store user account and profile data in Supabase to run core features: authentication, onboarding, profile settings, and contact workflows. Data is stored for platform operation and personalization only.\n\nWe do not sell personal data, and we do not use user data for unrelated advertising systems. User data is not repurposed for external marketing.\n\nInformation currently stored can include account identity from a sign‑in provider, profile details entered in onboarding/settings, and contact form messages submitted by users.\n\nData is retained to keep your account and app features working. If you need manual data removal or account closure, submit a request from the contact page.",
     },
     {
       id: "interest-based-ads",
       title: "3. Interest-Based Ads",
       body:
-        "This platform currently does not run third-party ad networks. If ad systems are enabled later, this section will be updated with opt-out controls and data usage details.",
+        "This platform currently does not run third‑party ad networks. If ad systems are enabled later, this section will be updated with opt‑out controls and data usage details.",
     },
     {
       id: "cookies-notice",
       title: "4. Cookies Notice",
       body:
-        "Cookies and local storage may be used for session persistence, auth state, and UI preferences. You may clear cookies in your browser at any time, but some features may stop working correctly until you sign in again.\n\nThese storage mechanisms are used for platform functionality, not for third-party behavioral ad targeting.",
+        "Cookies and local storage may be used for session persistence, auth state, and UI preferences. You may clear cookies in your browser at any time, but some features may stop working correctly until you sign in again.\n\nThese storage mechanisms are used for platform functionality, not for third‑party behavioral ad targeting.",
     },
     {
       id: "user-responsibility",
@@ -72,7 +72,7 @@ export const defaultDocumentationContent: DocumentationContent = {
       id: "contact-notices",
       title: "8. Contact & Notices",
       body:
-        "For legal notices, policy questions, or data concerns, use the Contact page. Messages are reviewed through the admin inbox.\n\nIf you want profile corrections, data updates, or account-related requests, contact us through the same page and include your account email.",
+        "For legal notices, policy questions, or data concerns, use the Contact page. Messages are reviewed through the admin inbox.\n\nIf you want profile corrections, data updates, or account‑related requests, contact us through the same page and include your account email.",
     },
     {
       id: "policy-updates",

@@ -85,6 +85,14 @@ export default function SettingsPage() {
   const [gameQuery, setGameQuery] = useState("");
   const [genreQuery, setGenreQuery] = useState("");
   const [platformQuery, setPlatformQuery] = useState("");
+  const [appearanceMode, setAppearanceMode] = useState(() => {
+    if (typeof window === "undefined") return "premium";
+    return window.localStorage.getItem("appearance_mode") || "premium";
+  });
+  const [animationsEnabled, setAnimationsEnabled] = useState(() => {
+    if (typeof window === "undefined") return "on";
+    return window.localStorage.getItem("animations_enabled") || "on";
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -118,6 +126,16 @@ export default function SettingsPage() {
       mounted = false;
       sub.subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!window.localStorage.getItem("appearance_mode")) {
+      window.localStorage.setItem("appearance_mode", "premium");
+    }
+    if (!window.localStorage.getItem("animations_enabled")) {
+      window.localStorage.setItem("animations_enabled", "on");
+    }
   }, []);
 
   const user = session?.user;
@@ -235,12 +253,30 @@ export default function SettingsPage() {
     setLoggingOut(false);
   };
 
+  const updateAppearance = (mode: string) => {
+    setAppearanceMode(mode);
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("appearance_mode", mode);
+    window.dispatchEvent(new Event("appearance-change"));
+  };
+
+  const updateAnimations = (mode: string) => {
+    setAnimationsEnabled(mode);
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("animations_enabled", mode);
+    window.dispatchEvent(new Event("animation-change"));
+  };
+
   return (
-    <PageShell
-      title="Settings"
-      subtitle="Profile, account, and preferences."
-    >
-      <div className="space-y-6">
+    <div className="relative overflow-hidden animate-pageIn settings-stage">
+      <div className="settings-glow" aria-hidden="true" />
+      <div className="settings-shimmer" aria-hidden="true" />
+      <div className="page-veil" aria-hidden="true" />
+      <PageShell
+        title="Settings"
+        subtitle="Profile, account, and preferences."
+      >
+        <div className="space-y-6">
         {/* Profile overview */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
           <div className="flex items-center justify-between">
@@ -704,24 +740,49 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Preferences */}
+        {/* Appearance */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
-          <p className="text-sm font-semibold">Preferences</p>
+          <p className="text-sm font-semibold">Appearance</p>
           <p className="text-xs text-zinc-500 mt-1">
-            Frontend only for now — backend will persist later.
+            Customize the visual intensity. Desktop-only effects.
           </p>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
               <p className="text-xs text-zinc-500">Theme</p>
-              <p className="text-sm mt-1">Dark</p>
+              <p className="text-sm mt-1">Dark (locked)</p>
             </div>
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4">
               <p className="text-xs text-zinc-500">Accent</p>
               <p className="text-sm mt-1">Indigo</p>
             </div>
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4 md:col-span-2">
-              <p className="text-xs text-zinc-500">Motion</p>
-              <p className="text-sm mt-1">Premium (standard)</p>
+              <p className="text-xs text-zinc-500 mb-2">Effects intensity</p>
+              <select
+                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-zinc-700 select-input"
+                value={appearanceMode}
+                onChange={(e) => updateAppearance(e.target.value)}
+              >
+                <option value="balanced">Balanced</option>
+                <option value="premium">Premium</option>
+                <option value="ultra">Ultra</option>
+              </select>
+              <p className="text-[11px] text-zinc-500 mt-2">
+                Ultra adds heavier glow + faster sweeps (desktop only).
+              </p>
+            </div>
+            <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-4 md:col-span-2">
+              <p className="text-xs text-zinc-500 mb-2">Animations</p>
+              <select
+                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-zinc-700 select-input"
+                value={animationsEnabled}
+                onChange={(e) => updateAnimations(e.target.value)}
+              >
+                <option value="on">On (desktop)</option>
+                <option value="off">Off</option>
+              </select>
+              <p className="text-[11px] text-zinc-500 mt-2">
+                Mobile always disables animations for smooth performance.
+              </p>
             </div>
           </div>
         </div>
@@ -760,7 +821,8 @@ export default function SettingsPage() {
           </div>
         </div>
 
-      </div>
-    </PageShell>
+        </div>
+      </PageShell>
+    </div>
   );
 }

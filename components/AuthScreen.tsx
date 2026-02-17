@@ -57,7 +57,7 @@ export default function AuthScreen({ mode }: { mode: Mode }) {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-48px)] overflow-hidden auth-stage">
+    <div className="relative min-h-[calc(100vh-48px)] overflow-hidden auth-stage auth-quiet">
       {/* Cinematic layers */}
       <div className="auth-sheen" aria-hidden="true" />
       <div className="auth-beam" aria-hidden="true" />

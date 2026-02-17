@@ -21,13 +21,28 @@ export default function GamingParticles() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const prefersReduce =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isCoarse =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(pointer: coarse)").matches;
+    const isLarge =
+      typeof window !== "undefined" &&
+      window.innerWidth >= 1024;
+
     let raf = 0;
     let w = 0;
     let h = 0;
     const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
     const particles: Particle[] = [];
-    const COUNT = 90;
+    const COUNT = isCoarse ? 28 : isLarge ? 110 : 80;
+    const speedScale = isCoarse ? 0.4 : isLarge ? 1.15 : 1;
+    const connectLines = !isCoarse;
+    const maxDist = isLarge ? 130 : 110;
 
     const resize = () => {
       const parent = canvas.parentElement;
@@ -51,10 +66,10 @@ export default function GamingParticles() {
         particles.push({
           x: rand(0, w),
           y: rand(0, h),
-          vx: rand(-0.25, 0.25),
-          vy: rand(-0.35, 0.35),
-          r: rand(0.8, 2.2),
-          a: rand(0.15, 0.55),
+          vx: rand(-0.25, 0.25) * speedScale,
+          vy: rand(-0.35, 0.35) * speedScale,
+          r: rand(0.8, isLarge ? 2.6 : 2.2),
+          a: rand(isCoarse ? 0.08 : 0.15, isLarge ? 0.6 : 0.55),
         });
       }
     };
@@ -88,21 +103,23 @@ export default function GamingParticles() {
       }
 
       // connect nearby particles (subtle)
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i];
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 110) {
-            const alpha = (1 - dist / 110) * 0.10;
-            ctx.strokeStyle = `rgba(255, 140, 60, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
+      if (connectLines) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i];
+            const b = particles[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * (isLarge ? 0.16 : 0.1);
+              ctx.strokeStyle = `rgba(255, 140, 60, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -112,7 +129,13 @@ export default function GamingParticles() {
 
     resize();
     seed();
-    step();
+    const allowAnim = !prefersReduce && !isCoarse;
+    if (allowAnim) {
+      step();
+    } else {
+      step();
+      cancelAnimationFrame(raf);
+    }
 
     window.addEventListener("resize", resize);
     return () => {
