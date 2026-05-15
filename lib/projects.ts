@@ -74,6 +74,14 @@ export const defaultProjectsContent: ProjectsContent = {
       tags: ["UI", "Frontend", "Supabase"],
     },
     {
+      name: "Minecraft Commands (PWA)",
+      status: "Active",
+      tech: "React + Vite",
+      desc: "Embedded PWA app for Minecraft Bedrock command references and utilities.",
+      progress: 95,
+      tags: ["PWA", "Mobile", "Utilities"],
+    },
+    {
       name: "Horror Game (Unity)",
       status: "Pending",
       tech: "Unity (Android) + C#",
