@@ -29,11 +29,18 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session ?? null);
-      setReady(true);
-    });
+    supabase.auth.getSession()
+      .then(({ data }) => {
+        if (!mounted) return;
+        setSession(data.session ?? null);
+        setReady(true);
+      })
+      .catch((error) => {
+        console.warn("Failed to get Supabase session:", error);
+        if (!mounted) return;
+        setSession(null);
+        setReady(true);
+      });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
