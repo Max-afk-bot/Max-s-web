@@ -1,0 +1,91 @@
+{
+  "metadata": { "category": "environment", "version": "2.1" },
+  "commands": [
+    {
+      "id": "time",
+      "title": "/time",
+      "syntax": "/time <set|add|query> <value>",
+      "category": "environment",
+      "description": "Manipulates the world time.",
+      "breakdown": "set: day, night, noon, midnight or number. add: increases time. query: returns current time.",
+      "wikiLink": "intro",
+      "tags": ["day", "night", "clock"]
+    },
+    {
+      "id": "weather",
+      "title": "/weather",
+      "syntax": "/weather <clear|rain|thunder> [duration]",
+      "category": "environment",
+      "description": "Changes the weather in the world.",
+      "breakdown": "duration is optional (in seconds).",
+      "wikiLink": "intro",
+      "tags": ["rain", "storm", "sun"]
+    },
+    {
+      "id": "difficulty",
+      "title": "/difficulty",
+      "syntax": "/difficulty <mode>",
+      "category": "environment",
+      "description": "Sets the game difficulty level.",
+      "breakdown": "modes: peaceful (p), easy (e), normal (n), hard (h).",
+      "wikiLink": "syntax",
+      "tags": ["hard", "easy", "normal"]
+    },
+    {
+      "id": "fog",
+      "title": "/fog",
+      "syntax": "/fog <target> <push|pop|remove> ...",
+      "category": "environment",
+      "description": "Adds or removes fog settings for players.",
+      "tags": ["visuals", "mist"]
+    },
+    {
+      "id": "daylock",
+      "title": "/daylock",
+      "syntax": "/daylock [lock]",
+      "category": "environment",
+      "description": "Locks the time of day, preventing it from advancing.",
+      "tags": ["alwaysdelay", "time"]
+    },
+    {
+      "id": "set_night",
+      "title": "Set Night",
+      "syntax": "/time set night",
+      "category": "environment",
+      "description": "Shortcut to set time to night.",
+      "tags": ["dark", "time"]
+    },
+    {
+      "id": "set_day",
+      "title": "Set Day",
+      "syntax": "/time set day",
+      "category": "environment",
+      "description": "Shortcut to set time to day.",
+      "tags": ["light", "time"]
+    },
+    {
+      "id": "rain",
+      "title": "Start Rain",
+      "syntax": "/weather rain",
+      "category": "environment",
+      "description": "Shortcut to start raining.",
+      "tags": ["wet", "weather"]
+    },
+    {
+      "id": "thunder",
+      "title": "Start Thunder",
+      "syntax": "/weather thunder",
+      "category": "environment",
+      "description": "Shortcut to start a thunderstorm.",
+      "tags": ["storm", "lightning"]
+    },
+    {
+      "id": "clear_weather",
+      "title": "Clear Weather",
+      "syntax": "/weather clear",
+      "category": "environment",
+      "description": "Shortcut to clear the weather.",
+      "tags": ["sun", "nice"]
+    }
+  ]
+}

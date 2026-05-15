@@ -1,0 +1,149 @@
+{
+  "metadata": { "category": "basics", "version": "2.1" },
+  "commands": [
+    {
+      "id": "help",
+      "title": "/help",
+      "syntax": "/help [page]",
+      "category": "basics",
+      "description": "Shows the command list and usage pages. Good for browsing command help within the game.",
+      "breakdown": "page is optional. Use it to navigate through multiple pages of available commands.",
+      "wikiLink": "syntax",
+      "tags": ["help", "info", "usage"]
+    },
+    {
+      "id": "give",
+      "title": "/give",
+      "syntax": "/give <target> <item> [amount]",
+      "category": "basics",
+      "description": "Gives items to players instantly.",
+      "breakdown": "target = player or selector (@a, @p), item = item ID (e.g., diamond), amount = stack count.",
+      "wikiLink": "selectors",
+      "tags": ["items", "inventory"]
+    },
+    {
+      "id": "clear",
+      "title": "/clear",
+      "syntax": "/clear <target> [item] [amount]",
+      "category": "basics",
+      "description": "Removes items from a player’s inventory.",
+      "breakdown": "target = who gets cleared, item and amount are optional filters to specify what to remove.",
+      "wikiLink": "selectors",
+      "tags": ["inventory", "remove"]
+    },
+    {
+      "id": "gamemode",
+      "title": "/gamemode",
+      "syntax": "/gamemode <mode> [target]",
+      "category": "basics",
+      "description": "Changes a player’s game mode.",
+      "breakdown": "mode = survival, creative, adventure, or spectator.",
+      "wikiLink": "intro",
+      "tags": ["survival", "creative", "spectator"]
+    },
+    {
+      "id": "teleport",
+      "title": "/teleport",
+      "syntax": "/teleport <target> <destination>",
+      "category": "basics",
+      "description": "Moves entities instantly to a new location or another entity.",
+      "breakdown": "target = who moves, destination = coordinates (x y z) or another entity name/selector.",
+      "wikiLink": "coords",
+      "examples": [
+        { "label": "To World Spawn", "cmd": "/tp @s 0 64 0" },
+        { "label": "Relative Move", "cmd": "/tp @s ~ ~10 ~" },
+        { "label": "To Player", "cmd": "/tp @s Steve" }
+      ],
+      "tags": ["tp", "move", "coords"]
+    },
+    {
+      "id": "kill",
+      "title": "/kill",
+      "syntax": "/kill <target>",
+      "category": "basics",
+      "description": "Deletes entities from the world.",
+      "breakdown": "target can be one player, many mobs, or @s (yourself). Use with caution!",
+      "wikiLink": "selectors",
+      "tags": ["delete", "remove", "death"]
+    },
+    {
+      "id": "effect",
+      "title": "/effect",
+      "syntax": "/effect <target> <effect> [seconds] [amplifier] [hideParticles]",
+      "category": "basics",
+      "description": "Adds or clears status effects.",
+      "breakdown": "effect = status ID (speed, levitation, etc). amplifier increases potency. hideParticles removes visual bubbles.",
+      "wikiLink": "effects",
+      "tags": ["potions", "status", "buffs"]
+    },
+    {
+      "id": "enchant",
+      "title": "/enchant",
+      "syntax": "/enchant <target> <enchantment> [level]",
+      "category": "basics",
+      "description": "Adds an enchantment to the item currently in the player’s hand.",
+      "breakdown": "level is optional. Only works if the item supports the enchantment and player is holding it.",
+      "wikiLink": "syntax",
+      "tags": ["tools", "weapons", "armor"]
+    },
+    {
+      "id": "xp",
+      "title": "/xp",
+      "syntax": "/xp <amount> [target]",
+      "category": "basics",
+      "description": "Gives or removes experience points/levels.",
+      "breakdown": "amount can be a number. Use suffix 'L' for levels (e.g., 5L).",
+      "wikiLink": "selectors",
+      "tags": ["experience", "levels"]
+    },
+    {
+      "id": "ability",
+      "title": "/ability",
+      "syntax": "/ability <player> <ability> [value]",
+      "category": "basics",
+      "description": "Sets or queries players abilities (like worldbuilder or mayfly).",
+      "breakdown": "player = target, ability = fly, mute, etc. value = true/false.",
+      "tags": ["permissions", "fly", "mute"]
+    },
+    {
+      "id": "adventure",
+      "title": "Mode: Adventure",
+      "syntax": "/gamemode adventure",
+      "category": "basics",
+      "description": "Shortcut to set adventure mode (no block breaking).",
+      "tags": ["mode", "shortcut"]
+    },
+    {
+      "id": "creative",
+      "title": "Mode: Creative",
+      "syntax": "/gamemode creative",
+      "category": "basics",
+      "description": "Shortcut to set creative mode (infinite blocks/flight).",
+      "tags": ["mode", "shortcut"]
+    },
+    {
+      "id": "survival",
+      "title": "Mode: Survival",
+      "syntax": "/gamemode survival",
+      "category": "basics",
+      "description": "Shortcut to set survival mode (health/hunger).",
+      "tags": ["mode", "shortcut"]
+    },
+    {
+      "id": "give_diamond",
+      "title": "Quick Diamonds",
+      "syntax": "/give @p diamond 64",
+      "category": "basics",
+      "description": "Gives the nearest player a full stack of diamonds.",
+      "tags": ["rich", "items"]
+    },
+    {
+      "id": "tp_spawn",
+      "title": "TP to Origin",
+      "syntax": "/tp @p 0 100 0",
+      "category": "basics",
+      "description": "Safe teleport to world origin (0, 100, 0).",
+      "tags": ["move", "start"]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "category": "survival",
+    "count": 5,
+    "schemaVersion": "2.0"
+  },
+  "commands": [
+    {
+      "id": "pack_s1",
+      "title": "Starter Food",
+      "syntax": "/give @p bread 64",
+      "description": "Essential emergency rations for exploration.\n\nLearning Points:\n• Bread restores 5 hunger points\n• Stacks up to 64\n• Can be crafted from wheat in survival",
+      "syntaxBreakdown": "1. /give: Item generation.\n2. @p: Nearest player targeting.\n3. bread: The item string ID.\n4. 64: Maximum stack count.",
+      "category": "survival",
+      "example": "/give @p bread 64",
+      "version": "All Versions",
+      "tags": ["survival", "food", "bread", "eat", "hunger", "pack"]
+    },
+    {
+      "id": "recipe",
+      "title": "/recipe",
+      "syntax": "/recipe <give|take> <target> <recipe>",
+      "category": "survival",
+      "description": "Unlocks or removes crafting recipes for players.",
+      "tags": ["crafting", "unlock"]
+    },
+    {
+      "id": "clearspawnpoint",
+      "title": "/clearspawnpoint",
+      "syntax": "/clearspawnpoint [target]",
+      "category": "survival",
+      "description": "Resets a player's spawn point to the world default.",
+      "tags": ["reset", "death"]
+    }
+  ]
+}

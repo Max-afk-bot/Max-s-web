@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "version": "2.1",
+    "count": 12,
+    "lastUpdate": "2026-05-13T12:00:00"
+  },
+  "categories": [
+    { "id": "basics", "name": "Basics & Player", "icon": "terminal", "color": "#00E5FF" },
+    { "id": "world", "name": "World & Blocks", "icon": "map", "color": "#2196F3" },
+    { "id": "entity", "name": "Entities & Mobs", "icon": "target", "color": "#F44336" },
+    { "id": "execute", "name": "Execute Magic", "icon": "zap", "color": "#9C27B0" },
+    { "id": "logic", "name": "Scoreboards & Logic", "icon": "shield", "color": "#FF9800" },
+    { "id": "automation", "name": "Automation", "icon": "settings", "color": "#795548" },
+    { "id": "environment", "name": "Environment", "icon": "flask", "color": "#009688" },
+    { "id": "display", "name": "Chat & Display", "icon": "message", "color": "#E91E63" },
+    { "id": "visuals", "name": "Visuals & Sound", "icon": "music", "color": "#607D8B" },
+    { "id": "server", "name": "Server & Admin", "icon": "shield", "color": "#3F51B5" },
+    { "id": "survival", "name": "Survival Tools", "icon": "scroll", "color": "#8BC34A" },
+    { "id": "fun", "name": "Chaos & Fun", "icon": "dice", "color": "#FFEB3B" }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "category": "builder",
+    "count": 4,
+    "schemaVersion": "2.0"
+  },
+  "commands": [
+    {
+      "id": "101",
+      "title": "Fill Block Command",
+      "syntax": "/fill ~ ~ ~ ~10 ~ ~10 stone",
+      "description": "Mass-place blocks in a specified cuboid region.\n\nLearning Points:\n• Max volume is usually 32,768 blocks\n• Can use 'hollow' or 'outline' modes\n• Replaces existing blocks by default",
+      "syntaxBreakdown": "1. /fill: Bulk placement logic.\n2. ~ ~ ~: Start corner (Relative).\n3. ~10 ~ ~10: End corner (Relative offset).\n4. stone: Item/Block ID to fill with.",
+      "category": "builder",
+      "example": "/fill ~ ~ ~ ~10 ~ ~10 stone",
+      "version": "All Versions",
+      "tags": ["fill", "block", "area", "cube", "massive"]
+    },
+    {
+      "id": "102",
+      "title": "Clone Structure",
+      "syntax": "/clone ~ ~ ~ ~10 ~ ~10 ~0 ~20 ~0",
+      "description": "Duplicates a structure from source to destination.\n\nLearning Points:\n• Source and destination can overlap\n• Retains block data and chest contents\n• Useful for rapid city building",
+      "syntaxBreakdown": "1. /clone: Duplication protocol.\n2. Start Coords: Corner 1 of source.\n3. End Coords: Corner 2 of source.\n4. Destination: Corner 1 where to paste.",
+      "category": "builder",
+      "example": "/clone 0 0 0 10 10 10 50 0 50",
+      "version": "All Versions",
+      "tags": [
+        "clone",
+        "copy",
+        "structure",
+        "paste",
+        "duplicate"
+      ]
+    }
+  ]
+}

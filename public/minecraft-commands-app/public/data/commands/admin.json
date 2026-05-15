@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "category": "admin",
+    "count": 5,
+    "schemaVersion": "2.0"
+  },
+  "commands": [
+    {
+      "id": "201",
+      "title": "Kick Player",
+      "syntax": "/kick @p Hacking detected",
+      "description": "Remove a player from the server",
+      "syntaxBreakdown": "• /kick - Command\n• @p - Nearest player\n• Message - Kick reason",
+      "category": "admin",
+      "example": "/kick @p \"You have been kicked\"",
+      "version": "All Versions",
+      "tags": ["kick", "remove", "player", "boot", "admin"]
+    }
+  ]
+}

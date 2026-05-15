@@ -1,0 +1,56 @@
+{
+  "metadata": { "category": "execute", "version": "2.1" },
+  "commands": [
+    {
+      "id": "execute",
+      "title": "/execute",
+      "syntax": "/execute <subcommands> run <command>",
+      "category": "execute",
+      "description": "The Swiss Army knife of commands. Changes execution context.",
+      "breakdown": "Modern Bedrock syntax uses: as, at, positioned, rotated, if block/entity, unless block/entity, and run.",
+      "wikiLink": "execute",
+      "examples": [
+        { "label": "Run as Mob", "cmd": "/execute as @e[type=zombie] run say Brains!" },
+        { "label": "Summon at Player", "cmd": "/execute at @p run summon lightning_bolt" },
+        { "label": "Check Block", "cmd": "/execute if block ~ ~-1 ~ air run fill ~ ~-1 ~ ~ ~-1 ~ stone" }
+      ],
+      "tags": ["advanced", "logic", "context"]
+    },
+    {
+      "id": "execute_as",
+      "title": "/execute as",
+      "syntax": "/execute as <target> run <command>",
+      "category": "execute",
+      "description": "Changes the 'who' is running the command.",
+      "breakdown": "The command runs with the permissions and identity of the target.",
+      "wikiLink": "execute",
+      "tags": ["advanced", "logic"]
+    },
+    {
+      "id": "execute_at",
+      "title": "/execute at",
+      "syntax": "/execute at <target> run <command>",
+      "category": "execute",
+      "description": "Changes the 'where' the command is running.",
+      "breakdown": "Sets the execution coordinates to the current position of the target.",
+      "wikiLink": "execute",
+      "tags": ["advanced", "logic"]
+    },
+    {
+      "id": "execute_if",
+      "title": "execute if",
+      "syntax": "/execute if <block|entity|score> run ...",
+      "category": "execute",
+      "description": "Conditional execution if a specific condition is met.",
+      "tags": ["logic", "if"]
+    },
+    {
+      "id": "execute_unless",
+      "title": "execute unless",
+      "syntax": "/execute unless <block|entity|score> run ...",
+      "category": "execute",
+      "description": "Conditional execution if a specific condition is NOT met.",
+      "tags": ["logic", "unless"]
+    }
+  ]
+}

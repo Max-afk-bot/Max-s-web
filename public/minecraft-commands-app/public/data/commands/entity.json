@@ -1,0 +1,89 @@
+{
+  "metadata": { "category": "entity", "version": "2.1" },
+  "commands": [
+    {
+      "id": "summon",
+      "title": "/summon",
+      "syntax": "/summon <entity> [pos]",
+      "category": "entity",
+      "description": "Spawns mobs, items, projectiles, or other entities.",
+      "breakdown": "entity = entity type ID (e.g., zombie, arrow). pos is optional.",
+      "wikiLink": "selectors",
+      "tags": ["mobs", "spawn", "entities"]
+    },
+    {
+      "id": "damage",
+      "title": "/damage",
+      "syntax": "/damage <target> <amount> [type]",
+      "category": "entity",
+      "description": "Damages entities directly with a specific amount and optional damage type.",
+      "breakdown": "type can define source like fire, falling, or magic for themed damage effects.",
+      "wikiLink": "selectors",
+      "tags": ["hurt", "health"]
+    },
+    {
+      "id": "event",
+      "title": "/event",
+      "syntax": "/event entity <target> <event>",
+      "category": "entity",
+      "description": "Triggers a specific entity event (behavior state).",
+      "breakdown": "Useful for forcing mob reactions like scaling, transformations, or state changes.",
+      "wikiLink": "selectors",
+      "tags": ["behavior", "triggers"]
+    },
+    {
+      "id": "tag",
+      "title": "/tag",
+      "syntax": "/tag <target> <add|remove|list> <name>",
+      "category": "entity",
+      "description": "Adds, removes, or lists strings tags on entities.",
+      "breakdown": "Tags are invisible markers used to track specific entities in complex command systems.",
+      "wikiLink": "selectors",
+      "tags": ["tracking", "logic"]
+    },
+    {
+      "id": "ride",
+      "title": "/ride",
+      "syntax": "/ride <target> <start_riding|stop_riding|evict_riders> ...",
+      "category": "entity",
+      "description": "Makes entities ride each other or dismount.",
+      "breakdown": "start_riding requires a vehicle entity. evict_riders clears all passengers from a mount.",
+      "wikiLink": "selectors",
+      "tags": ["mount", "vehicle"]
+    },
+    {
+      "id": "playanimation",
+      "title": "/playanimation",
+      "syntax": "/playanimation <target> <animation>",
+      "category": "entity",
+      "description": "Plays a specific animation on one or more entities.",
+      "breakdown": "animation must be a valid animation name from the entity's behavior/resource files.",
+      "wikiLink": "selectors",
+      "tags": ["visuals", "mobs"]
+    },
+    {
+      "id": "mobevent",
+      "title": "/mobevent",
+      "syntax": "/mobevent <event> [value]",
+      "category": "entity",
+      "description": "Controls global mob event states (like wandering trader spawns).",
+      "tags": ["global", "mobs"]
+    },
+    {
+      "id": "dialogue",
+      "title": "/dialogue",
+      "syntax": "/dialogue <open|change> <npc> <player>",
+      "category": "entity",
+      "description": "Opens or changes the NPC dialogue screen for a player.",
+      "tags": ["npc", "text"]
+    },
+    {
+      "id": "replaceitem",
+      "title": "/replaceitem",
+      "syntax": "/replaceitem entity <target> <slot> <item>",
+      "category": "entity",
+      "description": "Replaces an item in an entity's inventory or equipment slot.",
+      "tags": ["armor", "hand", "inventory"]
+    }
+  ]
+}

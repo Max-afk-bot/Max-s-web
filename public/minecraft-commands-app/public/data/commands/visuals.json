@@ -1,0 +1,71 @@
+{
+  "metadata": { "category": "visuals", "version": "2.1" },
+  "commands": [
+    {
+      "id": "particle",
+      "title": "/particle",
+      "syntax": "/particle <name> <pos>",
+      "category": "visuals",
+      "description": "Displays particle effects in the world.",
+      "breakdown": "name = particle ID (e.g., minecraft:huge_explosion_emitter). pos = coordinates.",
+      "wikiLink": "coords",
+      "tags": ["effects", "particles"]
+    },
+    {
+      "id": "playsound",
+      "title": "/playsound",
+      "syntax": "/playsound <sound> <target> [pos]",
+      "category": "visuals",
+      "description": "Plays a specific sound for players.",
+      "breakdown": "sound = sound ID. target = who hears it. pos = location source for 3D sound.",
+      "wikiLink": "coords",
+      "tags": ["audio", "sfx"]
+    },
+    {
+      "id": "music",
+      "title": "/music",
+      "syntax": "/music <play|stop> <track>",
+      "category": "visuals",
+      "description": "Controls background music playback.",
+      "breakdown": "track is the path to the music file in resource pack.",
+      "wikiLink": "syntax",
+      "tags": ["bgm", "audio"]
+    },
+    {
+      "id": "camera",
+      "title": "/camera",
+      "syntax": "/camera <target> <set|clear> ...",
+      "category": "visuals",
+      "description": "Sets or clears camera perspectives for players.",
+      "breakdown": "Powerful for cutscenes, overview shots, or locked perspectives.",
+      "wikiLink": "syntax",
+      "tags": ["view", "cinematic"]
+    },
+    {
+      "id": "camerashake",
+      "title": "/camerashake",
+      "syntax": "/camerashake <add|stop> <target> [intensity] [seconds]",
+      "category": "visuals",
+      "description": "Adds a screen shaking effect.",
+      "breakdown": "intensity = how hard it shakes. Great for explosions.",
+      "wikiLink": "syntax",
+      "tags": ["vibration", "effects"]
+    },
+    {
+      "id": "stopsound",
+      "title": "/stopsound",
+      "syntax": "/stopsound <target> [sound]",
+      "category": "visuals",
+      "description": "Stops a sound from playing for specific players.",
+      "tags": ["audio", "mute"]
+    },
+    {
+      "id": "volumes",
+      "title": "/volumes",
+      "syntax": "/volumes",
+      "category": "visuals",
+      "description": "Queries or sets volume levels for sound categories.",
+      "tags": ["audio", "settings"]
+    }
+  ]
+}

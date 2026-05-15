@@ -1,0 +1,17 @@
+{
+  "name": "Commands for Minecraft PE",
+  "short_name": "MC Commands",
+  "description": "The ultimate command reference and wiki for Minecraft Bedrock Edition.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#00e5ff",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/512/minecraft-main.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

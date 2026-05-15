@@ -1,0 +1,79 @@
+{
+  "metadata": { "category": "display", "version": "2.1" },
+  "commands": [
+    {
+      "id": "say",
+      "title": "/say",
+      "syntax": "/say <message>",
+      "category": "display",
+      "description": "Sends a message to the public chat.",
+      "breakdown": "Standard broadcast format: '[Owner] Hello!'.",
+      "wikiLink": "display",
+      "tags": ["chat", "broadcast"]
+    },
+    {
+      "id": "tell",
+      "title": "/tell",
+      "syntax": "/tell <target> <message>",
+      "category": "display",
+      "description": "Sends a private message to specific players.",
+      "breakdown": "Alias: /w, /msg.",
+      "wikiLink": "display",
+      "tags": ["whisper", "private"]
+    },
+    {
+      "id": "tellraw",
+      "title": "/tellraw",
+      "syntax": "/tellraw <target> <json>",
+      "category": "display",
+      "description": "Sends highly formatted JSON messages.",
+      "breakdown": "Supports colors, translations, player names, and scoreboard values.",
+      "wikiLink": "display",
+      "tags": ["fancy", "json"]
+    },
+    {
+      "id": "title",
+      "title": "/title",
+      "syntax": "/title <target> <title|subtitle|actionbar> <text>",
+      "category": "display",
+      "description": "Shows text on the player's screen HUD.",
+      "breakdown": "title = center big. subtitle = below title. actionbar = above hotbar.",
+      "wikiLink": "display",
+      "tags": ["screen", "text"]
+    },
+    {
+      "id": "hud",
+      "title": "/hud",
+      "syntax": "/hud <show|hide> [element]",
+      "category": "display",
+      "description": "Controls visibility of HUD elements.",
+      "breakdown": "element = paperdoll, armor, tooltips, all, etc. Great for cutscenes.",
+      "wikiLink": "display",
+      "tags": ["ui", "cinematic"]
+    },
+    {
+      "id": "me",
+      "title": "/me",
+      "syntax": "/me <action_text>",
+      "category": "display",
+      "description": "Sends an action message in the third person.",
+      "tags": ["emote", "chat"]
+    },
+    {
+      "id": "msg",
+      "title": "/msg",
+      "syntax": "/msg <target> <message>",
+      "category": "display",
+      "description": "Alias for /tell; sends a private message.",
+      "tags": ["alias", "tell"]
+    },
+    {
+      "id": "w",
+      "title": "/w",
+      "syntax": "/w <target> <message>",
+      "category": "display",
+      "description": "Short alias for /whisper; sends a private message.",
+      "tags": ["short", "whisper"]
+    }
+  ]
+}

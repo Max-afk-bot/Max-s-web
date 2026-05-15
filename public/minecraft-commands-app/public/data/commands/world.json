@@ -1,0 +1,125 @@
+{
+  "metadata": { "category": "world", "version": "2.1" },
+  "commands": [
+    {
+      "id": "setblock",
+      "title": "/setblock",
+      "syntax": "/setblock <pos> <block>",
+      "category": "world",
+      "description": "Places one specific block at one location.",
+      "breakdown": "pos = x y z coordinates, block = block ID (e.g., stone).",
+      "wikiLink": "coords",
+      "tags": ["blocks", "place"]
+    },
+    {
+      "id": "fill",
+      "title": "/fill",
+      "syntax": "/fill <from> <to> <block> [mode]",
+      "category": "world",
+      "description": "Fills a specified region with a block.",
+      "breakdown": "from and to = opposite corners of the cuboid area. mode = replace, outline, hollow, toggle, or keep.",
+      "wikiLink": "coords",
+      "example": "/fill ~ ~-1 ~ ~10 ~-1 ~10 stone replace air",
+      "examples": [
+        { "label": "Fill Area", "cmd": "/fill <x1> <y1> <z1> <x2> <y2> <z2> <block>" },
+        { "label": "Hollow Box", "cmd": "/fill ~ ~ ~ ~5 ~5 ~5 glass hollow" },
+        { "label": "Replace Blocks", "cmd": "/fill ~-5 ~-5 ~-5 ~5 ~5 ~5 stone replace dirt" }
+      ],
+      "tags": ["bulk", "area", "blocks"]
+    },
+    {
+      "id": "clone",
+      "title": "/clone",
+      "syntax": "/clone <begin> <end> <destination>",
+      "category": "world",
+      "description": "Copies a region of blocks to another place.",
+      "breakdown": "begin and end define the source box. destination is the bottom-north-west corner of where to paste.",
+      "wikiLink": "coords",
+      "tags": ["copy", "paste", "blocks"]
+    },
+    {
+      "id": "structure",
+      "title": "/structure",
+      "syntax": "/structure <save|load|delete> <name> ...",
+      "category": "world",
+      "description": "Saves, loads, or deletes build as structure files.",
+      "breakdown": "name is the ID. Use 'save' with coordinates, 'load' to place it, 'delete' to remove from memory.",
+      "wikiLink": "coords",
+      "tags": ["save", "load", "files"]
+    },
+    {
+      "id": "place",
+      "title": "/place",
+      "syntax": "/place <feature|jigsaw|feature_rule> ...",
+      "category": "world",
+      "description": "Places jigsaw pieces or world features like trees.",
+      "breakdown": "feature is the ID (e.g., oak_tree). Jigsaws are for multi-part structures.",
+      "wikiLink": "coords",
+      "tags": ["worldgen", "structures"]
+    },
+    {
+      "id": "locate",
+      "title": "/locate",
+      "syntax": "/locate <structure|biome>",
+      "category": "world",
+      "description": "Finds coordinates for the nearest structure or biome.",
+      "tags": ["find", "village", "stronghold"]
+    },
+    {
+      "id": "spreadplayers",
+      "title": "/spreadplayers",
+      "syntax": "/spreadplayers <center> <spreadDistance> ...",
+      "category": "world",
+      "description": "Teleports entities to random locations within an area.",
+      "tags": ["random", "tp", "scatter"]
+    },
+    {
+      "id": "worldbuilder",
+      "title": "/worldbuilder",
+      "syntax": "/worldbuilder",
+      "category": "world",
+      "description": "Toggles World Builder status (allows breaking blocks like barriers).",
+      "tags": ["permission", "blocks"]
+    },
+    {
+      "id": "wb",
+      "title": "/wb",
+      "syntax": "/wb",
+      "category": "world",
+      "description": "Shorthand for /worldbuilder.",
+      "tags": ["shorthand", "builder"]
+    },
+    {
+      "id": "setworldspawn",
+      "title": "/setworldspawn",
+      "syntax": "/setworldspawn [pos]",
+      "category": "world",
+      "description": "Sets the default spawn point for all players.",
+      "tags": ["home", "spawn"]
+    },
+    {
+      "id": "fill_air",
+      "title": "Clear Area",
+      "syntax": "/fill ~-5 ~-5 ~-5 ~5 ~5 ~5 air",
+      "category": "world",
+      "description": "Quickly deletes blocks in a 10x10x10 area around you.",
+      "tags": ["deletion", "bulk"]
+    },
+    {
+      "id": "give_barrier",
+      "title": "Get Barrier",
+      "syntax": "/give @p barrier",
+      "category": "world",
+      "description": "Gives you the invisible barrier block.",
+      "tags": ["invisible", "block"]
+    },
+    {
+      "id": "give_structure_block",
+      "title": "Get Struct Block",
+      "syntax": "/give @p structure_block",
+      "category": "world",
+      "description": "Gives you a structure block for saving/loading areas.",
+      "tags": ["builder", "save"]
+    }
+  ]
+}

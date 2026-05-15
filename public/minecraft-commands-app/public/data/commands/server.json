@@ -1,0 +1,87 @@
+{
+  "metadata": { "category": "server", "version": "2.1" },
+  "commands": [
+    {
+      "id": "list",
+      "title": "/list",
+      "syntax": "/list",
+      "category": "server",
+      "description": "Lists all players currently connected to the server.",
+      "breakdown": "Shows names and player count.",
+      "wikiLink": "selectors",
+      "tags": ["players", "online"]
+    },
+    {
+      "id": "kick",
+      "title": "/kick",
+      "syntax": "/kick <target> [reason]",
+      "category": "server",
+      "description": "Removes a player from the server session.",
+      "breakdown": "reason is optional and visible to the player who gets kicked.",
+      "wikiLink": "selectors",
+      "tags": ["remove", "ban"]
+    },
+    {
+      "id": "op",
+      "title": "/op",
+      "syntax": "/op <player>",
+      "category": "server",
+      "description": "Grants Operator status to a player.",
+      "breakdown": "Operators can run almost any command.",
+      "wikiLink": "syntax",
+      "tags": ["admin", "permissions"]
+    },
+    {
+      "id": "deop",
+      "title": "/deop",
+      "syntax": "/deop <player>",
+      "category": "server",
+      "description": "Removes Operator status from a player.",
+      "breakdown": "Revokes admin permissions.",
+      "wikiLink": "syntax",
+      "tags": ["admin", "permissions"]
+    },
+    {
+      "id": "spawnpoint",
+      "title": "/spawnpoint",
+      "syntax": "/spawnpoint <target> [pos]",
+      "category": "server",
+      "description": "Sets a player’s individual spawn point.",
+      "breakdown": "Overrides the world spawn for that specific player.",
+      "wikiLink": "coords",
+      "tags": ["respawn", "checkpoint"]
+    },
+    {
+      "id": "whitelist",
+      "title": "/whitelist",
+      "syntax": "/whitelist <add|remove|list|on|off>",
+      "category": "server",
+      "description": "Manages the server access list.",
+      "tags": ["private", "access"]
+    },
+    {
+      "id": "permission",
+      "title": "/permission",
+      "syntax": "/permission list|reload",
+      "category": "server",
+      "description": "Lists or reloads player permissions.",
+      "tags": ["auth", "admin"]
+    },
+    {
+      "id": "save-all",
+      "title": "/save-all",
+      "syntax": "/save-all",
+      "category": "server",
+      "description": "Forces the server to save all pending changes to disk.",
+      "tags": ["backup", "disk"]
+    },
+    {
+      "id": "setmaxplayers",
+      "title": "/setmaxplayers",
+      "syntax": "/setmaxplayers <count>",
+      "category": "server",
+      "description": "Sets the maximum number of players allowed in the game.",
+      "tags": ["limit", "multiplayer"]
+    }
+  ]
+}

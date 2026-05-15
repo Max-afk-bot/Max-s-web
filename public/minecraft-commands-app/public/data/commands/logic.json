@@ -1,0 +1,81 @@
+{
+  "metadata": { "category": "logic", "version": "2.1" },
+  "commands": [
+    {
+      "id": "scoreboard",
+      "title": "/scoreboard",
+      "syntax": "/scoreboard <objectives|players> ...",
+      "category": "logic",
+      "description": "Powerful system for tracking stats and variables.",
+      "breakdown": "objectives: add, remove, list, setdisplay. players: set, add, remove, reset, operation, test.",
+      "wikiLink": "logic",
+      "tags": ["stats", "math", "variables"]
+    },
+    {
+      "id": "scoreboard_math",
+      "title": "/scoreboard operation",
+      "syntax": "/scoreboard players operation <target> <objective> <op> <source> <sourceObjective>",
+      "category": "logic",
+      "description": "Performs math between different scoreboard values.",
+      "breakdown": "Ops include: +=, -=, *=, /=, %=, =, <, >, >< (swap).",
+      "wikiLink": "logic",
+      "tags": ["math", "logic"]
+    },
+    {
+      "id": "sc_obj",
+      "title": "sc objectives",
+      "syntax": "/scoreboard objectives <add|remove|list|setdisplay> ...",
+      "category": "logic",
+      "description": "Manages tracking categories (objectives).",
+      "tags": ["trackers"]
+    },
+    {
+      "id": "sc_players",
+      "title": "sc players",
+      "syntax": "/scoreboard players <set|add|remove|reset|operation|test> ...",
+      "category": "logic",
+      "description": "Manages player scores within objectives.",
+      "tags": ["data"]
+    },
+    {
+      "id": "testfor",
+      "title": "/testfor",
+      "syntax": "/testfor <target>",
+      "category": "logic",
+      "description": "Checks for the existence of entities matching a selector.",
+      "tags": ["detect", "count"]
+    },
+    {
+      "id": "testforblock",
+      "title": "/testforblock",
+      "syntax": "/testforblock <pos> <block>",
+      "category": "logic",
+      "description": "Checks if a specific block is at a specific position.",
+      "tags": ["check", "detect"]
+    },
+    {
+      "id": "testforblocks",
+      "title": "/testforblocks",
+      "syntax": "/testforblocks <begin> <end> <destination>",
+      "category": "logic",
+      "description": "Compares two areas of blocks.",
+      "tags": ["compare", "area"]
+    },
+    {
+      "id": "give_command_block",
+      "title": "Get Cmd Block",
+      "syntax": "/give @p command_block",
+      "category": "logic",
+      "description": "Gives the nearest player a command block.",
+      "tags": ["automation", "dev"]
+    },
+    {
+      "id": "logic_clock",
+      "title": "Repeat Clock",
+      "syntax": "/scoreboard players add @a timer 1",
+      "category": "logic",
+      "description": "Example syntax for a scoreboard-based timing clock.",
+      "tags": ["variable", "tick"]
+    }
+  ]
+}

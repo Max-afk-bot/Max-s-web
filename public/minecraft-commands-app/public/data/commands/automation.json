@@ -1,0 +1,63 @@
+{
+  "metadata": { "category": "automation", "version": "2.1" },
+  "commands": [
+    {
+      "id": "function",
+      "title": "/function",
+      "syntax": "/function <path>",
+      "category": "automation",
+      "description": "Runs a group of commands stored in a .mcfunction file.",
+      "breakdown": "Requires a behavior pack. Executes every line in the function file sequentially.",
+      "wikiLink": "blocks",
+      "tags": ["scripts", "automation"]
+    },
+    {
+      "id": "schedule",
+      "title": "/schedule",
+      "syntax": "/schedule function <path> <time>",
+      "category": "automation",
+      "description": "Schedules a function to run after a specific delay.",
+      "breakdown": "Time is in ticks (e.g., 20t = 1s). Great for timed traps or cycle logic.",
+      "wikiLink": "blocks",
+      "tags": ["time", "delay"]
+    },
+    {
+      "id": "testfor",
+      "title": "/testfor",
+      "syntax": "/testfor <target>",
+      "category": "automation",
+      "description": "Checks for entities matching a selector.",
+      "breakdown": "Outputs signal strength or success message. Useful in command blocks.",
+      "wikiLink": "selectors",
+      "tags": ["detect", "count"]
+    },
+    {
+      "id": "tickingarea",
+      "title": "/tickingarea",
+      "syntax": "/tickingarea <add|remove|list> ...",
+      "category": "automation",
+      "description": "Keeps specific world areas loaded even if no players are nearby.",
+      "breakdown": "Essential for 'always-on' command machines or farms. Supports circle or box areas.",
+      "wikiLink": "blocks",
+      "tags": ["chunks", "lag"]
+    },
+    {
+      "id": "gamerule",
+      "title": "/gamerule",
+      "syntax": "/gamerule <rule> [value]",
+      "category": "automation",
+      "description": "Changes world-wide game settings.",
+      "breakdown": "common rules: doDaylightCycle, keepInventory, mobGriefing, commandBlockOutput.",
+      "wikiLink": "syntax",
+      "tags": ["settings", "world"]
+    },
+    {
+      "id": "script",
+      "title": "/script",
+      "syntax": "/script <watchdog|profiler>",
+      "category": "automation",
+      "description": "Controls the script watchdog and profiler for GameTest scripts.",
+      "tags": ["dev", "performance"]
+    }
+  ]
+}

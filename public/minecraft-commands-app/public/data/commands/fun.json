@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "category": "fun",
+    "count": 5,
+    "schemaVersion": "2.0"
+  },
+  "commands": [
+    {
+      "id": "f1",
+      "title": "Summon Lightning Bolt",
+      "syntax": "/summon lightning_bolt ~ ~ ~",
+      "description": "Calls down a bolt of pure energy from the heavens.\n\nLearning Points:\n• Deals fire damage and 5 HP direct damage\n• Can transform Creepers into Charged Creepers\n• Can transform Pigs into Zoglins (Java) or Piglins (Bedrock context)",
+      "syntaxBreakdown": "1. /summon: Entity creation protocol.\n2. lightning_bolt: The entity ID code.\n3. ~ ~ ~: Relative coordinate markers (X, Y, Z).",
+      "category": "fun",
+      "example": "/summon lightning_bolt ~ ~ ~",
+      "version": "All Versions",
+      "tags": ["summon", "lightning", "smite", "strike", "thor", "troll"],
+      "tip": "😂 Tip: Use '/execute at @p run summon lightning_bolt' to repeatedly strike a friend!"
+    },
+    {
+      "id": "f4",
+      "title": "Dragon Growl",
+      "syntax": "/playsound entity.ender_dragon.growl master @a",
+      "description": "Ghostly audio manifestation of the end boss.\n\nLearning Points:\n• Global audio broadcast\n• Master channel bypasses volume settings usually\n• Perfect for jump scares",
+      "syntaxBreakdown": "1. /playsound: Audio trigger function.\n2. entity.ender_dragon.growl: Precise sound file path.\n3. master: The audio channel (master/ambient/etc).\n4. @a: Broadcast targets (All).",
+      "category": "fun",
+      "example": "/playsound entity.ender_dragon.growl master @a",
+      "version": "All Versions",
+      "tags": [
+        "sound",
+        "scare",
+        "troll",
+        "dragon",
+        "noise",
+        "audio"
+      ],
+      "tip": "Best used while your friends are mining in a dark cave! 🦇"
+    },
+    {
+      "id": "f5",
+      "title": "Screen Title Hack",
+      "syntax": "/title @a title {\"text\":\"HACKED!\"}",
+      "description": "Visual UI override for cinematic moments.\n\nLearning Points:\n• Large text centered on display\n• Uses JSON formatting for styles/colors\n• Requires @a for server-wide announcements",
+      "syntaxBreakdown": "1. /title: UI layer override.\n2. @a: Target spectrum (all players).\n3. title: The specific UI slot (title/subtitle/actionbar).\n4. {\"text\":\"...\"}: JSON object containing the string.",
+      "category": "fun",
+      "example": "/title @a title {\"text\":\"Welcome Max 😎\"}",
+      "version": "All Versions",
+      "tags": [
+        "title",
+        "screen",
+        "text",
+        "ui",
+        "display",
+        "welcome"
+      ],
+      "tip": "Perfect for setting up minigames or custom server lobbies."
+    },
+    {
+      "id": "summon_tnt",
+      "title": "Summon TNT",
+      "syntax": "/summon tnt ~ ~ ~",
+      "category": "fun",
+      "description": "Instantly summons a primed TNT block at your position.",
+      "tags": ["chaos", "explode"]
+    },
+    {
+      "id": "summon_dragon",
+      "title": "Summon Dragon",
+      "syntax": "/summon ender_dragon ~ ~ ~",
+      "category": "fun",
+      "description": "Summons the Ender Dragon in the Overworld! Chaos guaranteed.",
+      "tags": ["boss", "chaos"]
+    },
+    {
+      "id": "kill_all_mobs",
+      "title": "Kill All Mobs",
+      "syntax": "/kill @e[type=!player]",
+      "category": "fun",
+      "description": "Wipes out every entity EXCEPT players.",
+      "tags": ["wipe", "clear"]
+    },
+    {
+      "id": "effect_speed",
+      "title": "Super Speed",
+      "syntax": "/effect @p speed 99999 255 true",
+      "category": "fun",
+      "description": "Gives max speed with invisible particles.",
+      "tags": ["faster", "god"]
+    },
+    {
+      "id": "effect_strength",
+      "title": "Super Strength",
+      "syntax": "/effect @p strength 99999 255 true",
+      "category": "fun",
+      "description": "Infinite strength for one-hit kills.",
+      "tags": ["onehit", "god"]
+    },
+    {
+      "id": "effect_haste",
+      "title": "Super Haste",
+      "syntax": "/effect @p haste 99999 255 true",
+      "category": "fun",
+      "description": "Break blocks instantly like they are paper.",
+      "tags": ["mining", "fast"]
+    },
+    {
+      "id": "effect_jump",
+      "title": "Super Jump",
+      "syntax": "/effect @p jump_boost 99999 10 true",
+      "category": "fun",
+      "description": "Jump incredibly high without taking fall damage (usually).",
+      "tags": ["flight", "high"]
+    },
+    {
+      "id": "effect_invisible",
+      "title": "Invisible",
+      "syntax": "/effect @p invisibility 99999 1 true",
+      "category": "fun",
+      "description": "Become completely hidden from mobs and players.",
+      "tags": ["hide", "stealth"]
+    },
+    {
+      "id": "summon_lightning",
+      "title": "Lightning Bolt",
+      "syntax": "/summon lightning_bolt ~ ~ ~",
+      "category": "fun",
+      "description": "Force a lightning strike at your coordinates.",
+      "tags": ["shock", "chaos"]
+    },
+    {
+      "id": "chaos_tnt_rain",
+      "title": "TNT Rain",
+      "syntax": "/execute at @a run summon tnt ~ ~10 ~",
+      "category": "fun",
+      "description": "Rains TNT down on every player! Ultimate chaos.",
+      "tags": ["chaos", "death"]
+    },
+    {
+      "id": "chaos_lightning_trail",
+      "title": "Lightning Trail",
+      "syntax": "/execute at @a run summon lightning_bolt ~ ~ ~",
+      "category": "fun",
+      "description": "Follows every player with a lightning strike.",
+      "tags": ["chaos", "fx"]
+    }
+  ]
+}

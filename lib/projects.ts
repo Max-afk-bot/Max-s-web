@@ -113,6 +113,16 @@ export const defaultProjectsContent: ProjectsContent = {
       preview:
         "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&auto=format&fit=crop",
     },
+    {
+      name: "Minecraft Commands PE",
+      summary: "Ultimate Bedrock Command Reference and utility app for Minecraft players. Built with React + Vite.",
+      link: "/projects/minecraft-commands",
+      tech: "React + Vite + Tailwind",
+      year: "2026",
+      downloads: 0,
+      preview:
+        "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=1200&auto=format&fit=crop",
+    },
   ],
   current_project: "Dashboard Website",
   pipeline: [
