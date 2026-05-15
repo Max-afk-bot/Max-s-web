@@ -7,6 +7,8 @@ export type ProjectItem = {
   desc: string;
   progress: number;
   tags: string[];
+  link?: string;
+  preview?: string;
 };
 
 export type CompletedProject = {
@@ -80,6 +82,8 @@ export const defaultProjectsContent: ProjectsContent = {
       desc: "Embedded PWA app for Minecraft Bedrock command references and utilities.",
       progress: 95,
       tags: ["PWA", "Mobile", "Utilities"],
+      link: "/projects/minecraft-commands",
+      preview: "/minecraft-commands-app/assets/manifest-CXqajOKZ.json",
     },
     {
       name: "Horror Game (Unity)",

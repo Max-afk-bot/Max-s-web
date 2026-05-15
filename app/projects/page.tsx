@@ -302,6 +302,16 @@ export default function ProjectsPage() {
                           style={{ width: `${p.progress}%` }}
                         />
                       </div>
+                      {p.link ? (
+                        <div className="mt-4">
+                          <a
+                            href={p.link}
+                            className="inline-flex items-center gap-2 text-sm px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md"
+                          >
+                            Open
+                          </a>
+                        </div>
+                      ) : null}
                     </div>
                   </Card>
                 );
