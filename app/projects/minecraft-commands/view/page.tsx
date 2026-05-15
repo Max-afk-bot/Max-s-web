@@ -58,7 +58,7 @@ export default function ViewerPage() {
             {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
           </button>
           <a
-            href="/minecraft-commands-app/index.html"
+            href="/minecraft-commands-app/"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 hover:bg-zinc-900 rounded-lg text-zinc-400 hover:text-white transition-colors"
@@ -73,7 +73,7 @@ export default function ViewerPage() {
       <div className="flex-1 overflow-hidden" id="app-iframe-container">
         <iframe
           id="app-iframe"
-          src="/minecraft-commands-app/index.html"
+          src="/minecraft-commands-app/"
           className="w-full h-full border-0"
           title="Minecraft Commands PE App"
           allow="geolocation; microphone; camera; fullscreen"
