@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ['next'],
+  extends: ['next', 'next/core-web-vitals', 'plugin:prettier/recommended'],
   ignorePatterns: ['node_modules/**', '.next/**', 'public/minecraft-commands-app/**'],
 };

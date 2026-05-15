@@ -32,8 +32,11 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
 
       {/* Right pill */}
       <div className="ml-auto hidden sm:block">
-        <div className="text-xs px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/30">
-          Max • v1
+        <div className="flex items-center gap-3">
+          <a href="/projects/minecraft-commands" className="text-xs px-3 py-1 rounded-full border border-emerald-600 bg-emerald-700/5 text-emerald-300 hover:bg-emerald-700/10">Minecraft PWA</a>
+          <div className="text-xs px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/30">
+            Max • v1
+          </div>
         </div>
       </div>
     </header>
