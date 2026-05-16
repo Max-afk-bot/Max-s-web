@@ -161,9 +161,7 @@ export default function Home() {
       <div className="dashboard-spotlight" aria-hidden="true" />
       <div className="dashboard-scanlines" aria-hidden="true" />
       <div className="dashboard-bloom" aria-hidden="true" />
-      <div className="dashboard-mist" aria-hidden="true" />
       <div className="dashboard-grid" aria-hidden="true" />
-      <div className="page-veil" aria-hidden="true" />
 
       {/* Floating Accent Layer */}
       <div className="absolute inset-0 pointer-events-none -z-10">

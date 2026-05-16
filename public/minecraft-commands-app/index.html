@@ -7,11 +7,46 @@
     <base href="./" />
     <link rel="manifest" href="./assets/manifest-CXqajOKZ.json" />
     <title>Commands for Minecraft PE | Professional PE Reference</title>
-    <script type="module" crossorigin src="./assets/index-Bn_I-7-9.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-mth6zUYd.css">
+    <script>
+      // Defer loading of the main module to reduce blocking on install/startup.
+      (function(){
+        const loadApp = () => {
+          try {
+            import('./assets/index-Bn_I-7-9.js').catch(e => console.error('App module load failed', e));
+          } catch (e) {
+            // dynamic import might not be supported; fallback to appending script tag
+            const s = document.createElement('script');
+            s.type = 'module';
+            s.src = './assets/index-Bn_I-7-9.js';
+            s.crossOrigin = '';
+            s.onerror = (ev) => console.error('App script load error', ev);
+            document.head.appendChild(s);
+          }
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(loadApp, {timeout: 2000});
+        } else {
+          window.addEventListener('DOMContentLoaded', () => setTimeout(loadApp, 50));
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        try {
+          // derive a scope path that points to the current folder (e.g. /minecraft-commands-app/)
+          const scopePath = new URL('./', location.href).pathname;
+          navigator.serviceWorker.register('./sw.js', { scope: scopePath }).then((reg) => {
+            console.log('ServiceWorker registered with scope:', scopePath, reg);
+          }).catch((err) => console.warn('ServiceWorker registration failed:', err));
+        } catch (e) {
+          console.warn('SW registration error', e);
+        }
+      }
+    </script>
   </body>
 </html>
 

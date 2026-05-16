@@ -10,9 +10,8 @@ export default function PageTransition({
   const pathname = usePathname();
 
   return (
-    <div key={pathname} className="relative">
-      <div className="route-mask" aria-hidden />
-      <div className="animate-routeIn">{children}</div>
+    <div key={pathname} className="relative animate-routeIn">
+      {children}
     </div>
   );
 }

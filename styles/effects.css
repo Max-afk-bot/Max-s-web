@@ -327,7 +327,7 @@
   inset: 0;
   pointer-events: none;
   z-index: -5;
-  opacity: 0.65;
+  opacity: 0.15;
   background-image:
     radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.05), transparent 60%),
     radial-gradient(120% 90% at 50% 100%, rgba(0,0,0,0.55), transparent 60%),
@@ -422,21 +422,6 @@ html[data-appearance="off"] .auth-grid {
 
 /* Reduce onboarding transition length to avoid long blocking animations */
 .onboard-transition { animation-duration: 220ms; }
-
-/* Thin page-loading mask to hide micro-jank during navigation */
-.route-mask {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  background: rgba(6, 6, 10, 0.98);
-  animation: routeMaskFade 260ms ease-out;
-}
-
-@keyframes routeMaskFade {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
 
 .dashboard-grid {
   position: absolute;
@@ -1239,6 +1224,7 @@ html[data-appearance="off"] .auth-grid {
     rgba(17, 24, 39, 0.78) 55%,
     rgba(9, 9, 11, 0.92) 100%
   );
+  opacity: 0.10;
 }
 
 /* ============================
