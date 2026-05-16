@@ -98,22 +98,43 @@ export default function MinecraftCommandsPage() {
           <h2 className="text-2xl font-bold text-white mb-6">Get Started</h2>
           <div className="flex flex-col sm:flex-row gap-4">
             {!isMobile ? (
-              <Link
-                href="/projects/minecraft-commands/view"
-                className="flex-1 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <ExternalLink size={20} />
-                Open App
-              </Link>
+              <>
+                <Link
+                  href="/projects/minecraft-commands/view"
+                  className="flex-1 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <ExternalLink size={20} />
+                  Open App (Preview)
+                </Link>
+
+                <a
+                  href="/minecraft-commands-app/index.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-6 py-3 border border-emerald-600 text-emerald-300 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <ExternalLink size={20} />
+                  Open App (PWA)
+                </a>
+              </>
             ) : (
-              <button
-                disabled
-                className="flex-1 px-6 py-3 bg-emerald-600/50 text-white font-semibold rounded-lg flex items-center justify-center gap-2 cursor-not-allowed opacity-75"
-                title="Preview disabled on mobile for better performance"
-              >
-                <ExternalLink size={20} />
-                Preview (Desktop Only)
-              </button>
+              <div className="flex-1 grid grid-cols-2 gap-3">
+                <button
+                  disabled
+                  className="px-6 py-3 bg-emerald-600/50 text-white font-semibold rounded-lg flex items-center justify-center gap-2 cursor-not-allowed opacity-75"
+                  title="Preview disabled on mobile for better performance"
+                >
+                  <ExternalLink size={20} />
+                  Preview (Desktop Only)
+                </button>
+                <a
+                  href="/minecraft-commands-app/index.html"
+                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg flex items-center justify-center gap-2"
+                >
+                  <ExternalLink size={20} />
+                  Open App (PWA)
+                </a>
+              </div>
             )}
             <button
               className="flex-1 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
