@@ -49,8 +49,26 @@ export default function ProjectsPage() {
   useEffect(() => {
     let mounted = true;
     fetchProjectsContent().then((data) => {
-      if (!mounted || !data) return;
-      setContent({ ...defaultProjectsContent, ...data });
+      if (!mounted) return;
+      if (!data) {
+        // ensure default includes the PWA project
+        setContent((prev) => {
+          const hasPwa = prev.projects.some((p) => p.name.includes("Minecraft Commands"));
+          if (hasPwa) return prev;
+          return { ...defaultProjectsContent };
+        });
+        return;
+      }
+      // merge defaults then ensure PWA present
+      const merged = { ...defaultProjectsContent, ...data } as ProjectsContent;
+      const hasPwa = merged.projects.some((p) => p.name.includes("Minecraft Commands"));
+      if (!hasPwa) {
+        merged.projects = [
+          ...merged.projects,
+          defaultProjectsContent.projects.find((p) => p.name.includes("Minecraft Commands (PWA)"))!,
+        ];
+      }
+      setContent(merged);
     });
     fetchSiteSettings().then((settings) => {
       if (!mounted) return;
@@ -306,6 +324,8 @@ export default function ProjectsPage() {
                         <div className="mt-4">
                           <a
                             href={p.link}
+                            target="_blank"
+                            rel="noreferrer"
                             className="inline-flex items-center gap-2 text-sm px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md"
                           >
                             Open

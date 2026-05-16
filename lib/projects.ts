@@ -82,7 +82,7 @@ export const defaultProjectsContent: ProjectsContent = {
       desc: "Embedded PWA app for Minecraft Bedrock command references and utilities.",
       progress: 95,
       tags: ["PWA", "Mobile", "Utilities"],
-      link: "/projects/minecraft-commands",
+      link: "/minecraft-commands-app/index.html",
       preview: "/minecraft-commands-app/assets/manifest-CXqajOKZ.json",
     },
     {
