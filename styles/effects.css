@@ -404,6 +404,25 @@
   animation: mistDrift 18s linear infinite;
 }
 
+/* Reduce heavy animations when animations are disabled (improve performance) */
+html[data-appearance="off"] .premium-bg,
+html[data-appearance="off"] .auth-sheen,
+html[data-appearance="off"] .auth-beam,
+html[data-appearance="off"] .auth-orb-a,
+html[data-appearance="off"] .auth-orb-b,
+html[data-appearance="off"] .dashboard-bloom,
+html[data-appearance="off"] .dashboard-spotlight,
+html[data-appearance="off"] .filmgrain,
+html[data-appearance="off"] .dashboard-mist,
+html[data-appearance="off"] .auth-grid {
+  animation: none !important;
+  transition: none !important;
+  opacity: 0.18 !important;
+}
+
+/* Reduce onboarding transition length to avoid long blocking animations */
+.onboard-transition { animation-duration: 220ms; }
+
 .dashboard-grid {
   position: absolute;
   inset: 0;

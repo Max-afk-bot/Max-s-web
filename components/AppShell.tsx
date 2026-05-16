@@ -43,7 +43,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const applyAppearance = () => {
-      const mode = window.localStorage.getItem("appearance_mode") || "premium";
+      const mode = window.localStorage.getItem("appearance_mode") || "off";
       document.documentElement.dataset.appearance = mode;
     };
     applyAppearance();
